@@ -1,0 +1,621 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ada.z64</title>
+		<meta propery="og:tite" content="ada.z64" />
+		<meta property="og:description" content="ada's portfolio site" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="ada.z64" />
+		<meta name="twitter:description" content="ada's portfolio site" />
+		<meta property="twitter:image" content="https://file.garden/aKXmtMu4gl9vV3YB/site-preview-2.png" />
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/fixedsys-css/css/fixedsys.css"
+		/>
+		<link rel="icon" href="favicon.png" type="image/png" />
+		<link
+			href="https://netvista.neocities.org/style.css"
+			rel="stylesheet"
+			type="text/css"
+			media="all"
+		/>
+		<style>
+					.header-image {
+						position: relative;
+						overflow: visible;
+						z-index: 2;
+						text-align: center;
+						margin-bottom: -60px;
+						filter: drop-shadow(0 8px 15px rgba(0,0,0,0.5));
+					}
+
+					img {
+						image-rendering: auto;
+					}
+
+
+					.header-image img {
+						max-width: 100%;
+						height: auto;
+						transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+					}
+
+					.header-image img:hover {
+						transform: translateY(-10px) scale(1.02);
+					}
+					
+					.spotify-wrapper {
+						display: inline-block;
+						background-color: rgba(255, 255, 255, 0.5);
+						backdrop-filter: blur(6px) saturate(150%);
+						-webkit-backdrop-filter: blur(6px) saturate(150%);
+
+						border:2px solid #fff;
+						border-right-color: #808080;
+						border-bottom-color: #808080;
+						border-radius: 6px;
+
+						padding: 4px;
+						box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+					}
+						body {
+							background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0,0,0,0)),
+			              url("images/water-66.gif");
+							background-size: cover;
+							background-position: center;
+							background-repeat: no-repeat;
+							background-attachment: fixed;
+						}
+						.under-construction {
+							position: absolute;
+							top: 0;
+							left: 60%;
+							z-index: 3;
+							text-align: center;
+							cursor: default;
+							user-select: none;
+							margin-bottom: -100px;
+							opacity: 1;
+							transition: opacity 0.2s ease;
+						}
+
+						.under-construction img {
+							max-width: 50%;
+							height: auto;
+							transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+						}
+						.under-construction img:hover {
+							transform: scale(1.1);
+						}
+
+						@media (max-width: 1100px) {
+							.under-construction, .traffic-lights-header, .red, .yellow, .green {
+								opacity: 0;
+								pointer-events: none;
+							}
+						}
+
+						.petpet {
+							position: absolute;
+							top: -10px;
+							left: 40%;
+							z-index: 4;
+							text-align: center;
+							cursor: default;
+							user-select: none;
+							margin-bottom: -100px;
+							opacity: 0;
+							transition: opacity 0.5s ease;
+
+						}
+
+						.centered-image {
+							display: block;
+							margin: 0 auto;
+						}
+
+						#toggle-pet:checked ~ .petpet {
+							opacity: 1;
+						}
+						.centar {
+							position: relative;
+
+							background: rgba(224, 224, 224, 0.85);
+
+							backdrop-filter: blur(12px) saturate(100%);
+							-webkit-backdrop-filter: blur(12px) saturate(100%);
+
+							border-radius: 12px;
+
+							border: 1px solid #aaa;
+
+							box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+
+							font-family: "Helvetia Neue", Helvetica, Arial, sans-serif;
+							color: #333;
+							z-index: 1;
+
+							overflow: hidden;
+							transition: transform 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+						}
+
+						.centar .top-bar {
+							position: relative;
+							height: 32px;
+							border-bottom: 1px solid #aaa;
+							background: linear-gradient(to bottom, #f0f0f0, #c8c8c8);
+							border-top-left-radius: 12px;
+							border-top-right-radius: 12px;
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							padding: 0 12px;
+							box-shadow: inset 0 -1px 2px rgba(0,0,0,0.2);
+						}
+
+						.centar .title {
+							position: absolute;
+							left: 50%;
+							transform: translateX(-50%);
+							font-weight: bold;
+							font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+							font-size: 14px;
+							color: #333;
+							text-shadow: 0 1px 0 #fff;
+							pointer-events: none;
+						}
+
+						.centar .content {
+							transition: max-height 0.4s ease, opacity 0.3s ease;
+							overflow: hidden;
+							max-height: 20000px;
+							padding: 20px;
+						}
+						
+						.centar .collapsed .content {
+							max-height: 0;
+							opacity: 0;
+						}
+
+						.centar .traffic-lights span {
+							width: 14px;
+							height: 14px;
+							border-radius: 50%;
+							display: block;
+							box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.7),
+								0 2px 3px rgba(0,0,0,0.2);
+							cursor: pointer;
+							transition: opacity 0.5s ease;
+							opacity: 1;
+						}
+
+
+						.centar .traffic-lights {
+							display: flex;
+							gap: 6px;
+							z-index: 300;
+						}
+
+						.centar .traffic-lights .red {
+							background: linear-gradient(to bottom, #ff5f56, #bf2f2a);
+							border: 1px solid #a80000;
+							transition: opacity 0.5s ease;
+						}
+
+						.centar .traffic-lights .yellow {
+							background: linear-gradient(to bottom, #ffbd2e, #bf9500);
+							border: 1px solid #a87f00;
+							transition: opacity 0.5s ease;
+						}
+
+						.centar .traffic-lights .green {
+							background: linear-gradient(to bottom, #27c93f, #1a9f2c);
+							border: 1px solid #0f6a1a;
+							transition: opacity 0.5s ease;
+						}
+
+						.centar .traffic-lights span:hover {
+							filter: brightness(1.2);
+						}
+
+						.centar .traffic-lights-header {
+							display: flex;
+							gap: 6px;
+							z-index: 300;
+							transition: opacity 0.2s ease;
+						}
+
+						.centar .traffic-lights-header .red {
+							background: linear-gradient(to bottom, #ff5f56, #bf2f2a);
+							border: 1px solid #a80000;
+							transition: opacity 0.5s ease;
+						}
+
+						.centar .traffic-lights-header .yellow {
+							background: linear-gradient(to bottom, #ffbd2e, #bf9500);
+							border: 1px solid #a87f00;
+							transition: opacity 0.5s ease;
+						}
+
+						.centar .traffic-lights-header .green {
+							background: linear-gradient(to bottom, #27c93f, #1a9f2c);
+							border: 1px solid #0f6a1a;
+							transition: opacity 0.5s ease;
+						}
+
+						.centar .traffic-lights-header span:hover {
+							filter: brightness(1.2);
+						}
+
+						.centar .traffic-lights-header span {
+							width: 14px;
+							height: 14px;
+							border-radius: 50%;
+							display: block;
+							box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.7),
+								0 2px 3px rgba(0,0,0,0.2);
+							cursor: pointer;
+							transition: opacity 0.5s ease;
+							opacity: 1;
+						}
+
+						.centar .aqua-button::before {
+							content: "";
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 90%;
+							height: 10px;
+						}
+
+						.centar .aqua-button::after {
+							mix-blend-mode: color-dodge;
+							content: "";
+							position: absolute;
+							top: 9px;
+							left: 12px;
+							border-radius: 60px 60px 30px 30px;
+							width: 122px;
+							height: 10px;
+							background-image: linear-gradient(
+								rgba(255,255,255,0.9),
+								rgba(255,255,255,0.3)
+							);
+							opacity: 0.7;
+							overflow: hidden;
+							z-index: 3;
+						}
+
+						.centar .mac-aqua-button {
+							display:block;
+							margin-bottom: 1rem;
+							text-align: center;
+							text-decoration: none;
+							color: black;
+							border-radius: 20px;
+							font-size: 14px;
+							padding: 0.2rem 2rem;
+							border: 1px solid rgba(0,0,0,0.5);
+							box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.1);
+							max-width: 64px !important;
+						}
+
+						.centar h1 {
+							transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+							cursor: default;
+
+						}
+
+						.centar h1:hover {
+							letter-spacing: 3px;
+							transform: scale(1.1);
+						}
+
+						.image-container {
+							text-align: center;
+						}
+
+						.dock {
+							position: fixed;
+							bottom: 0;
+							left: 50%;
+							transform: translateX(-50%) translateY(3px);
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							pointer-events: none;
+							z-index: 99;
+							--icon-count: 6;
+						}
+
+						.dock-shelf {
+							position: fixed;
+							bottom: -5px;
+							left: 50%;
+							transform: translateX(-50%) perspective(400px) rotateX(25deg);
+							width: calc(80px * 6);
+							height: 60px;
+							background: linear-gradient(
+								to top,
+								rgba(136, 136, 136, 0.9) 0%,
+								rgba( 208, 208, 208, 0.9) 40%,
+								rgba(253, 253, 253, 0.9) 70%,
+								rgba(208, 208, 208, 0.9) 100%
+							);
+							border-radius: 5px;
+
+							backdrop-filter: blur(12px) saturate(180%);
+							-webkit-backdrop-filter: blur(12px) saturate(180%);
+
+							border-top: 1px solid #aaa;
+
+							box-shadow:
+								0 -2px 8px rgba(0,0,0,0.5),
+								inset 0 2px 6px rgba(255,255,255,0.6),
+								inset 0 -2px 4px rgba(0,0,0,0.3);
+
+							z-index: 50;
+						}
+
+						.dock img {
+							display: block;
+						}
+
+						.dock-icons {
+							position: relative;
+							display: block;
+							pointer-events: auto;
+							z-index: 102;
+						}
+
+						.dock-icons img {
+							width: 64px;
+							height: 64px;
+							cursor: pointer;
+							transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+							z-index: 101;
+							transform: translateY(-10px);
+							margin: 0 5px;
+							filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+						}
+
+						.dock-icons img:hover {
+							transform: scale(1.2) translateY(-20px);
+							z-index:102;
+							filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+						}
+
+						.tooltip {
+							position: absolute;
+							bottom: 100%;
+							left: 50%;
+							transform: translateX(-50%) translateY(-10px);
+							margin-bottom: 8px;
+							background-color: rgba(50,50,50,0.85);
+							color: #fff;
+							font-size: 12px;
+							font-family: sans-serif;
+							padding: 4px 8px;
+							border-radius: 50px;
+							box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+							opacity: 0;
+							pointer-events: none;
+							white-space: nowrap;
+							transition: opacity 0.1s ease, transform 0.2s ease;
+						}
+						
+						.tooltip::after {
+							content: "";
+							position: absolute;
+							top: 100%;
+							left: 50%;
+							transform: translateX(-50%);
+							border-width: 6px;
+							border-style: solid;
+							border-color: rgba(50,50,50,0.7) transparent transparent transparent;
+						}
+
+						.dock-icons:hover .tooltip {
+							opacity: 1;
+							transform: translateX(-50%) translateY(-30px);
+						}
+						.centar .aqua-button {
+							background: linear-gradient(#0342b9, #83dffd);
+			/* 				position: relative;
+			display: inline-block;
+			padding: 8px 20px;
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			font-weight: bold;
+			color: #000;
+			cursor: pointer;
+			border: 1px solid #5a5fc0;
+			border-radius: 14px;
+
+			background: linear-gradient(to bottom,
+				#e6ebff 0%,
+				#b0c0ff 50%,
+				#7080ff 100%);
+
+			box-shadow:
+				inset 0 2px 4px rgba(255,255,255,0.7),
+				inset 0 -2x 3px rgba(0,0,0,0.2),
+				0 3px 6px rgba(0,0,0,0.25);
+
+			transition: all 0.2s ease;
+			overflow: hidden; */
+						}
+		</style>
+	</head>
+	<body>
+		<br />
+		<div class="header-image">
+			<img src="images/adadotz64banner.png" alt="adadotz64" />
+		</div>
+		<div class="under-construction">
+			<input type="checkbox" id="toggle-pet" hidden />
+			<label for="toggle-pet">
+				<img
+					src="https://file.garden/aKXmtMu4gl9vV3YB/underconstruction.png"
+				/>
+			</label>
+			<img src="images/petpet.gif" class="petpet" />
+		</div>
+		<div class="centar">
+			<div style="display:flex;"></div>
+			<div class="top-bar">
+				<div class="traffic-lights-header">
+					<span class="red"></span>
+					<span class="yellow"></span>
+					<span class="green"></span>
+				</div>
+			</div>
+			<br />
+			<div class="content">
+				<h1 style="text-align: center">gifs!</h1>
+				<hr />
+				<p style="text-align: center">
+					i'm ada, i'm a graphic designer / digital artist currently
+					studying graphic design at university
+				</p>
+				<br />
+				<p style="text-align: center">
+					my work on here mainly consists of Doctor Who fan-art, such
+					as custom posters, blu-ray cover art, or CD cover art for
+					various releases, as well as custom title sequences created
+					using blender.
+				</p>
+				<br />
+				<p style="text-align: center">
+					i've also done work for small game development teams,
+					designing their logos and motion graphics, as well as
+					animating and editing long-form videos for them to showcase
+					the development of their projects.
+				</p>
+				<br />
+				<p style="text-align: center">
+					you can navigate through the site using the dock at the
+					bottom of the page, which contains links to my gallery, social media, and other places where you can find my work!
+				</p>
+			</div>
+			<br />
+		</div>
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+
+		<div class="centar">
+			<div style="display:flex;"></div>
+			<div class="top-bar">
+				<div class="traffic-lights">
+					<span class="red"></span>
+					<span class="yellow"></span>
+					<span class="green"></span>
+				</div>
+
+				<div class="title">gallery of fun</div>
+				<div class="right-space"></div>
+			</div>
+
+			<div class="content">
+				<p style="text-align: center">here's some gifs as a reward for scrolling :)</p>
+				<hr />
+				<img src="images/orb.gif" class="centered-image" />
+				<br />
+				<img src="images/bagel.gif" class="centered-image" />
+				<br />
+				<img
+					src="https://file.garden/aKXmtMu4gl9vV3YB/ezgif-1c3912158f5c3e.gif"
+				/>
+			</div>
+			<br />
+			<br />
+			<br />
+		</div>
+		<br />
+		<br />
+		<br />
+		<br />
+		<div class="dock">
+			<div class="dock-icons">
+				
+					<img
+						src="images/finder.png"
+						alt="Folder"
+					/>
+				
+					<span class="tooltip">Homepage</span>
+				
+			</div>
+			<div class="dock-icons">
+				<a href="https://ada-z64.com/socials">
+					<img
+						src="images/socials.png"
+					/>
+					<span class="tooltip">Social Media</span>
+				</a>
+			</div>
+			<div class="dock-icons">
+				<a href="https://ada-z64.com/gallery">
+					<img
+						src="images/gallery.png"
+					/>
+				</a>
+				<span class="tooltip">Gallery</span>
+			</div>
+			<div class="dock-icons">
+				<a href="https://open.spotify.com/user/x37q6t6v82jslhyoo5vhkuzwb" target="_blank">
+					<img
+						src="images/music.png"
+					/>
+					<span class="tooltip">Spotify</span>
+				</a>
+			</div>
+			<div class="dock-icons">
+				<a href="https://www.youtube.com/@argorath/videos" target="_blank">
+					<img
+						src="images/movies.png"
+					/>
+					<span class="tooltip">YouTube Videos</span>
+				</a>
+			</div>
+			<div class="dock-icons">
+				<a href="mailto:ada.j.baker@protonmail.com" title="Email me">
+					<img
+						src="images/mail.png"
+					/>
+					<span class="tooltip">Email me!</span>
+				</a>
+			</div>
+			</div>
+			<div class="dock-shelf"></div>
+		</div>
+	</body>
+	<script>
+		NekoType="neon"
+	</script>
+	<h1 id="nl">
+		<script src="https://webneko.net/n20171213.js"></script>
+		<a href="https://webneko.net">Neko</a>
+	</h1>
+</html>
