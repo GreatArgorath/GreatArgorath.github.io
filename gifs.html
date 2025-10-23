@@ -121,6 +121,9 @@
 						.centar {
 							position: relative;
 
+                            width: min(1200px, 96%);
+                            max-width:1200px;
+
 							background: rgba(224, 224, 224, 0.85);
 
 							
@@ -415,7 +418,7 @@
                         }
 
                         .gifs img {
-                            max-width: 48%;
+                            max-width: 20%;
                             position: relative;
                             z-index: 1;
                             transition: transform 0.3s ease, filter 0.2s ease;
@@ -426,7 +429,7 @@
                         }
 
                         .gifs img:hover, .gifs img:focus {
-                            transform: scale(1.1);
+                            transform: scale(1.2);
                             filter: drop-shadow(0 8px 15px rgba(0,0,0,0.5));
                             z-index: 9999;
                             outline: none;
