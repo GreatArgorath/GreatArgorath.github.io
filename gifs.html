@@ -49,8 +49,7 @@
 					.spotify-wrapper {
 						display: inline-block;
 						background-color: rgba(255, 255, 255, 0.5);
-						backdrop-filter: blur(6px) saturate(150%);
-						-webkit-backdrop-filter: blur(6px) saturate(150%);
+						
 
 						border:2px solid #fff;
 						border-right-color: #808080;
@@ -124,8 +123,7 @@
 
 							background: rgba(224, 224, 224, 0.85);
 
-							backdrop-filter: blur(12px) saturate(100%);
-							-webkit-backdrop-filter: blur(12px) saturate(100%);
+							
 
 							border-radius: 12px;
 
@@ -346,8 +344,7 @@
 							);
 							border-radius: 5px;
 
-							backdrop-filter: blur(12px) saturate(180%);
-							-webkit-backdrop-filter: blur(12px) saturate(180%);
+							
 
 							border-top: 1px solid #aaa;
 
@@ -405,6 +402,35 @@
 							white-space: nowrap;
 							transition: opacity 0.1s ease, transform 0.2s ease;
 						}
+
+                        .gifs {
+                            position: relative;
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 1% 1%;
+                            row-gap: 0.5rem;
+                            align-items: center;
+                            justify-content: center;
+                            overflow: visible;
+                        }
+
+                        .gifs img {
+                            max-width: 48%;
+                            position: relative;
+                            z-index: 1;
+                            transition: transform 0.3s ease, filter 0.2s ease;
+                            transform-origin: center center;
+                            will-change: transform;
+                            backface-visibility: hidden;
+                            
+                        }
+
+                        .gifs img:hover, .gifs img:focus {
+                            transform: scale(1.1);
+                            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.5));
+                            z-index: 9999;
+                            outline: none;
+                        }
 						
 						.tooltip::after {
 							content: "";
@@ -450,81 +476,10 @@
 	</head>
 	<body>
 		<br />
-		<div class="header-image">
-			<img src="images/adadotz64banner.png" alt="adadotz64" />
-		</div>
-		<div class="under-construction">
-			<input type="checkbox" id="toggle-pet" hidden />
-			<label for="toggle-pet">
-				<img
-					src="https://file.garden/aKXmtMu4gl9vV3YB/underconstruction.png"
-				/>
-			</label>
-			<img src="images/petpet.gif" class="petpet" />
-		</div>
-		<div class="centar">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content">
-				<h1 style="text-align: center">gifs!</h1>
-				<hr />
-				<p style="text-align: center">
-					i'm ada, i'm a graphic designer / digital artist currently
-					studying graphic design at university
-				</p>
-				<br />
-				<p style="text-align: center">
-					my work on here mainly consists of Doctor Who fan-art, such
-					as custom posters, blu-ray cover art, or CD cover art for
-					various releases, as well as custom title sequences created
-					using blender.
-				</p>
-				<br />
-				<p style="text-align: center">
-					i've also done work for small game development teams,
-					designing their logos and motion graphics, as well as
-					animating and editing long-form videos for them to showcase
-					the development of their projects.
-				</p>
-				<br />
-				<p style="text-align: center">
-					you can navigate through the site using the dock at the
-					bottom of the page, which contains links to my gallery, social media, and other places where you can find my work!
-				</p>
-			</div>
-			<br />
-		</div>
+        <br />
+        <br />
 
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-
-		<div class="centar">
+        <div class="centar">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights">
@@ -533,30 +488,56 @@
 					<span class="green"></span>
 				</div>
 
-				<div class="title">gallery of fun</div>
+				<div class="title">gifs!</div>
 				<div class="right-space"></div>
 			</div>
 
 			<div class="content">
-				<p style="text-align: center">here's some gifs as a reward for scrolling :)</p>
-				<hr />
-				<img src="images/orb.gif" class="centered-image" />
-				<br />
-				<img src="images/bagel.gif" class="centered-image" />
-				<br />
-				<img
-					src="https://file.garden/aKXmtMu4gl9vV3YB/ezgif-1c3912158f5c3e.gif"
-				/>
+				
+				 <div class="gifs">
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                    <img src="https://file.garden/aKXmtMu4gl9vV3YB/protestgif1.gif" alt="protestgif1" />
+                </div>
+				
 			</div>
-			<br />
-			<br />
-			<br />
 		</div>
+
 		<br />
 		<br />
 		<br />
 		<br />
-		<div class="dock">
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+
+		
+		<br />
+		<br />
+		<br />
+		<br />
+		<!-- <div class="dock">
 			<div class="dock-icons">
 				
 					<img
@@ -609,7 +590,7 @@
 			</div>
 			</div>
 			<div class="dock-shelf"></div>
-		</div>
+		</div> -->
 	</body>
 	<script>
 		NekoType="neon"
