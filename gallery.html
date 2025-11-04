@@ -2409,13 +2409,13 @@
 			const px = (e.clientX - rect.left) / rect.width;
 			const py = (e.clientY - rect.top) / rect.height;
 
-			const rotY = (px - 0.5) * (maxTilt * 2) * -1;
-			const rotX = (py - 0.5) * (maxTilt * 2);
+			const rotY = -((px - 0.5) * (maxTilt * 2)) * -1;
+			const rotX = -((py - 0.5) * (maxTilt * 2));
 
 			const dx = (px - 0.5) * 2;
 			const dy = (py - 0.5) * 2;
 			const dist = Math.sqrt(dx * dx + dy * dy);
-			const tz = (1 - Math.min(dist, 1)) * maxTranslateZ;
+			const tz = -Math.min(dist, 1) * maxTranslateZ;
 
 			target.rx = rotX;
 			target.ry = rotY;
