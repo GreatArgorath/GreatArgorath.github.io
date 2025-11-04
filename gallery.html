@@ -42,10 +42,47 @@
 						display: block;
 						margin: 0 auto;
 					}
+
+					.card {
+						font-weight: bold;
+						padding: 1em;
+						text-align: right;
+						color: #181a1a;
+						
+						width:  300px;
+						height: 400px;
+						box-shadow: 0 1px 5px #00000099;
+						
+						border-radius: 10px;
+						background-image: url(https://images.unsplash.com/photo-1557672199-6e8c8b2b8fff?ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80);
+						background-size: cover;
+						
+						position: relative;
+						
+						transition-duration: 300ms;
+						transition-property: transform, box-shadow;
+						transition-timing-function: ease-out;
+						transform: rotate3d(0);
+					}
+
+					.card:hover {
+						transition-duration: 150ms;
+						box-shadow: 0 5px 20px 5px #00000044;
+					}
+
+					.card .glow {
+						position: absolute;
+						width: 100%;
+						height: 100%;
+						left: 0;
+						top: 0;
+						
+						background-image: radial-gradient(circle at 50% -20%, #ffffff22, #0000000f);
+					}
 					.centar {
 						position: relative;
 
-						background: rgba(224, 224, 224, 0.95);
+						background: rgba(229, 229, 229, 0.95);
 
 						border-radius: 12px;
 
@@ -407,6 +444,41 @@
 						transform: translateX(-50%) translateY(-30px);
 					}
 
+					.video-container-2 {
+						display: block;
+						justify-content: center;
+						align-items: center;
+					}
+
+					.video-container-2 a {
+						display: inline-flex;
+						justify-content: center;
+						width: 100%;
+					}
+
+					.video-container-2 img {
+						margin: 0 auto;
+						height: auto;
+						max-width: 80%;
+						border-radius: 12px;
+						background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0));
+						display: block;
+						box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.3);
+						transition: transform 0.2s ease;
+						cursor: pointer;
+					}
+
+				
+
+					.video-container-2:focus {
+						outline: none;
+						-webkit-tap-highlight-color: transparent;
+					}
+
+					.video-container-2 img:hover {
+						transform: scale(1.02);
+					}
+
 					.gallery {
 						display: grid;
 						grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -419,7 +491,11 @@
 					.gallery a {
 						display: block;
 						width: 100%;
+						position: relative;
+						z-index: 1;
 					}
+
+					
 
 					.gallery img {
 						width: 100%;
@@ -573,11 +649,52 @@
 						position: relative;
 						width: 90%;
 						max-width: 560px;
-						padding-bottom: 56.25%;
+						padding-bottom: 75%;
+						
 						height: 0;
 						border-radius: 20px;
+						overflow: hidden;
+					}
 
+					.lightbox .embed-wrapper-aspera, .lightbox .video-wrapper--embed {
+						width: min(1120px, 90vw);
+						max-width: 100%;
+						aspect-ratio: 4 / 3;
+						height: auto;
+						max-height: 80vh;
+						margin: 0.5rem auto;
+						overflow: hidden;
+						border-radius: 12px;
+						align-self: center;
+						flex: 0 0 auto;
+					}
 
+					.lightbox iframe {
+						width: 100%;
+						height: 100%;
+						border: 0;
+						display: block;
+						background: transparent;
+					}
+
+					@supports not (aspect-ratio: 4/3) {
+						.lightbox .embed-wrapper-aspera {
+							width: min(1120px, 90vw);
+							max-width: 100%;
+							margin: 0.5rem auto;
+							position: relative;
+						}
+						.lightbox .embed-wrapper-aspera::before {
+							content: "";
+							display: block;
+							padding-top: 75%;
+						}
+
+						.lightbox .embed-wrapper-aspera > iframe {
+							position: absolute;
+							top: 0; left: 0;
+							width: 100%; height: 100%;
+						}
 					}
 
 
@@ -596,14 +713,17 @@
 						position: relative;
 
 						cursor: pointer;
-						background: #000;
+						background: transparent;
 						border-radius: 20px;
+						overflow: hidden;
+						display: block;
 					}
 
 					.video-thumb img {
 						width: 100%;
 						height: 100%;
 						object-fit: cover;
+						object-position: center;
 						border-radius: 20px;
 
 					}
@@ -698,6 +818,32 @@
 
 		transition: all 0.2s ease;
 		overflow: hidden; */
+					}
+
+					.gallery a, .video-container-2 a { perspective: 1100px; -webkit-perspective: 1100px;}
+					.gallery a img, .video-container-2 a img {
+						transform-style: preserve-3d;
+						-webkit-transform-style: preserve-3d;
+						backface-visibility: hidden;
+						-webkit-backface-visibility: hidden;
+						transition: box-shadow 220ms ease, filter 220ms ease;
+                        will-change: transform, box-shadow, filter;
+                        transform-origin: center center;
+                     }
+
+					.gallery a img.is-tilting {
+						/* softer shadow and less brightness for a subtler lift */
+						box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+						filter: brightness(1.1);
+					}
+
+					.gallery a:hover,
+					.gallery a:focus,
+					.gallery a.is-active,
+					.video-container-2 a:hover,
+					.video-container-2 a:focus,
+					.video-container-2 a.is-active {
+						z-index: 60;
 					}
 		</style>
 	</head>
@@ -844,18 +990,24 @@
 			</div>
 
 			<div class="content">
-				<div class="video-container">
-					<div class="video-wrapper">
+				
+				<div class="video-container-2">
+					<!-- <div class="video-wrapper">
 						<div class="video-thumb" data-video-id="KKQrftFLObI">
 							<img
-								src="https://img.youtube.com/vi/KKQrftFLObI/hqdefault.jpg"
-								alt="Video Thumbnail"
-							/>
+								src="https://img.youtube.com/vi/KKQr
 							<div class="play-button">▶</div>
 						</div>
-					</div>
+					</div> -->
 
-					<p class="video-caption">
+					<a href="#peraspera" onClick="openLightbox('peraspera')">
+						<img
+							src="https://file.garden/aKXmtMu4gl9vV3YB/perasperawebsitethumb.jpg"
+							loading="lazy"
+						/>
+					</a>
+
+					<!-- <p class="video-caption">
 						<strong>
 							<em>Per Aspera</em>
 							<br />
@@ -878,7 +1030,7 @@
 						year, I decided to try and make a new short film. Still
 						scifi, but much more ambitious in terms of the
 						cinematography and realism.
-					</p>
+					</p> -->
 				</div>
 
 				<br />
@@ -1187,7 +1339,7 @@
 					<div class="video-wrapper">
 						<div class="video-thumb" data-video-id="LC5PX61p4ho">
 							<img
-								src="https://img.youtube.com/vi/LC5PX61p4ho/hqdefault.jpg"
+								src="https://img.youtube.com/vi/LC5PX61p4ho
 								alt="Video Thumbnail"
 							/>
 							<div class="play-button">▶</div>
@@ -1235,7 +1387,7 @@
 						the time vortex here and the 2005-2009 vortex, but it's
 						also mixed in with the texture of the late 1970s vortex.
 						The TARDIS movement at the beginning is also ripped
-						straight from the 2010 title sequence, along with some
+					straight from the 2010 title sequence, along with some
 						movement at the end inspired by the 1996 movie titles.
 						There's also asteroids coming towards the camera, like
 						in the 1987 titles.
@@ -1403,6 +1555,30 @@
 			</p>
 			<p class="caption">
 				
+			</p>
+		</div>
+
+		<div id="peraspera" class="lightbox">
+			<a href="#" class="lightbox-close" onclick="closeLightbox(event)">
+				<div class="embed-wrapper-aspera">
+					<iframe src="https://www.youtube.com/embed/KKQrftFLObI?si=zqEztX8OXouZEWce" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				</div>
+			</a>	
+			<h1 class="header-caption">Per Aspera</h1>
+
+			<p class="caption">
+				Blednder Short Film
+				<br />
+				30th April 2025
+			</p>
+
+			<p class="caption">
+				This was my final project for my second year of uni, and took about 2 months to make.
+			</p>
+			<p class="caption">
+				During my foundation year I had started learning Blender on the side, and as one of my projects in that year I created a couple minute long short film about a robot on a spaceship hurtling towards the sun. As one of my first blender projects, it wasn't great, and I knew I could do better now with how much I'd learned since. So, with the opportunity on the moving image module in my second year, I decided to try and make a new short film. Still scifi, but much more ambitious in terms of the cinematography and realism.
+
+
 			</p>
 		</div>
 
@@ -1958,7 +2134,7 @@
 				Created using Photoshop and images from The Black Archive photo
 				gallery and Unsplash
 				<br />
-				February 13th 2024
+				Febraury 13th 2024
 			</p>
 
 			<p class="caption">
@@ -1987,7 +2163,7 @@
 				Created using Photoshop and images from The Black Archive photo
 				gallery and Unsplash
 				<br />
-				February 13th 2024
+				Febraury 13th 2024
 			</p>
 
 			<p class="caption">
@@ -2016,7 +2192,7 @@
 				Created using Photoshop and images from The Black Archive photo
 				gallery and Unsplash
 				<br />
-				February 13th 2024
+				Febraury 13th 2024
 			</p>
 
 			<p class="caption">
@@ -2189,6 +2365,95 @@
 			});
 		});
 
+(function() {
+	/* tune these to reduce intensity */
+	const maxTilt = 6;            // lower = less rotation
+	const maxTranslateZ = 6;      // lower = less pop-out
+	const hoverScale = 1.02;      // subtle scale
+	const ease = 0.05;            // interpolation factor (0.05 = very smooth/slow, 0.25 = snappier)
+
+	document.querySelectorAll('.gallery a, .video-container-2 a').forEach(anchor => {
+		const img = anchor.querySelector('img');
+		if (!img) return;
+
+		let target = {rx: 0, ry: 0, tz: 0, s: 1};
+		let current = {rx: 0, ry: 0, tz: 0, s: 1};
+		let rafId = null;
+
+		function lerp(a, b, t) { return a + (b - a) * t; }
+
+		function rafStep() {
+			current.rx = lerp(current.rx, target.rx, ease);
+			current.ry = lerp(current.ry, target.ry, ease);
+			current.tz = lerp(current.tz, target.tz, ease);
+			current.s  = lerp(current.s,  target.s,  ease);
+
+			img.style.transform = `perspective(1100px) translateZ(${current.tz.toFixed(2)}px) rotateX(${current.rx.toFixed(3)}deg) rotateY(${current.ry.toFixed(3)}deg) scale(${current.s.toFixed(3)})`;
+
+			// stop when close enough
+			const delta = Math.abs(current.rx - target.rx) + Math.abs(current.ry - target.ry) + Math.abs(current.tz - target.tz) + Math.abs(current.s - target.s);
+			if (delta > 0.001) {
+				rafId = requestAnimationFrame(rafStep);
+			} else {
+				rafId = null;
+				if (target.s === 1) img.classList.remove('is-tilting');
+			}
+		}
+
+		function scheduleRAF() {
+			if (!rafId) rafId = requestAnimationFrame(rafStep);
+		}
+
+		function onMove(e) {
+			const rect = anchor.getBoundingClientRect();
+			const px = (e.clientX - rect.left) / rect.width;
+			const py = (e.clientY - rect.top) / rect.height;
+
+			const rotY = (px - 0.5) * (maxTilt * 2) * -1;
+			const rotX = (py - 0.5) * (maxTilt * 2);
+
+			const dx = (px - 0.5) * 2;
+			const dy = (py - 0.5) * 2;
+			const dist = Math.sqrt(dx * dx + dy * dy);
+			const tz = (1 - Math.min(dist, 1)) * maxTranslateZ;
+
+			target.rx = rotX;
+			target.ry = rotY;
+			target.tz = tz;
+			target.s  = hoverScale;
+
+			img.classList.add('is-tilting');
+			scheduleRAF();
+		}
+
+		function onEnter() {
+			anchor.addEventListener('mousemove', onMove);
+			anchor.addEventListener('touchmove', onMove, {passive: true});
+		}
+
+		function onLeave() {
+			anchor.removeEventListener('mousemove', onMove);
+			anchor.removeEventListener('touchmove', onMove);
+			// don't snap — set target back to neutral and let RAF ease it out
+			// target = {rx: 0, ry: 0, tz: 0, s: 1};
+			// scheduleRAF();
+
+			img.classList.remove('is-tilting');
+			target = {rx: 0, ry: 0, tz: 0, s: 1};
+			scheduleRAF();
+
+		}
+
+		anchor.addEventListener('mouseenter', onEnter);
+		anchor.addEventListener('mouseleave', onLeave);
+		anchor.addEventListener('focus', () => {
+			target = {rx: 0, ry: 0, tz: maxTranslateZ / 2, s: hoverScale + 0.01};
+			img.classList.add('is-tilting');
+			scheduleRAF();
+		});
+		anchor.addEventListener('blur', onLeave);
+	});
+})();
 
 
 		NekoType="neon"
@@ -2196,6 +2461,6 @@
 
 	<h1 id="nl">
 		<script src="https://webneko.net/n20171213.js"></script>
-		<a href="https://webneko.net">Neko</a>
-	</h1>
-</html>
+
+
+	</h1>		<a href="https://webneko.net">Neko</a></html>
