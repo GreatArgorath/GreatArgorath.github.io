@@ -12,15 +12,51 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: "futura-100", sans-serif;
-            font-style: normal;
+            letter-spacing: -5px;
         }
         h1 {
             font-size: 48px;
+            font-weight: 700;
+            transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+        }
+
+        .bold {
+            font-family: "futura-100", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .italic {
+            font-family: "gothicus", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        h1:hover {
+            
+            font-size: 54px;
         }
     </style>
 </head>
 <body>
-    <h1>waddup fash</h1>
+    <h1 class="font1">
+        <span class="bold">a</span>
+        <span class="italic">u</span>
+        <span class="bold">t</span>
+        <span class="italic">h</span>
+        <span class="bold">o</span>
+        <span class="italic">r</span>
+        <span class="bold">i</span>
+        <span class="italic">t</span>
+        <span class="bold">a</span>
+        <span class="italic">r</span>
+        <span class="bold">i</span>
+        <span class="italic">a</span>
+        <span class="bold">n</span>
+    </h1>
+    <br />
+    <h1 class="font1">
+        <span class="bold">typefaces</span>
 </body>
 </html>
