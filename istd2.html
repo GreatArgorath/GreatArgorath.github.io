@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hello World</title>
+  <style>
+    html,body { height: 100%; margin: 0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #000; color: #fff; }
+    .video-bg--base {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: -1;
+    }
+    .video-overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: auto;
+      height: auto;
+      max-width: 70%;
+      max-height: 70%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 0; /* sits above base video but below content */
+      pointer-events: none;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      
+    }
+    .hello {
+      font-size: clamp(1.5rem, 6vw, 4rem);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+  <!-- Base background video -->
+  <video class="video-bg--base" autoplay muted loop playsinline poster="videos/poster.jpg" aria-hidden="true">
+    <source src="https://file.garden/aKXmtMu4gl9vV3YB/paperbackground.mp4" type="video/mp4">
+    <!-- Fallback: still image -->
+  </video>
+
+  <!-- Overlay WebM with alpha (transparency) -->
+  <video class="video-overlay" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.webm" type="video/webm">
+    <!-- If the browser doesn't support WebM with alpha, this will simply be ignored -->
+  </video>
+
+  <main class="content">
+    <div class="hello">hello world</div>
+  </main>
+</body>
+</html>

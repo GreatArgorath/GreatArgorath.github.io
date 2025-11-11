@@ -151,20 +151,47 @@
             min-width: 100%;
             min-height: 100%;
             will-change: transform;
-            filter: invert(var(--video-invert)) hue-rotate(var(--video-hue-rotate, 180deg)) contrast(1.05);
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
         }
-        /* optional subtle overlay for legibility */
-        .header-overlay {
+
+        /* optional foreground video (layered above background video) */
+        .header-foreground-video {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.06));
-            z-index: 1;
+            z-index: 1; /* sits above .header-video but below overlay and brand */
+            pointer-events: none;
+            overflow: hidden;
+            mix-blend-mode: screen; /* change to overlay, lighten, normal, etc. to taste */
+            opacity: 0.9; /* default strength */
+            will-change: transform, opacity;
+        }
+        .header-foreground-video video {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            min-width: 100%;
+            min-height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             pointer-events: none;
         }
-        /* bring the brand content above the video */
-        .site-brand { z-index: 2; position: relative; display:flex; align-items:center; gap:10px; }
+
+         /* optional subtle overlay for legibility */
+         .header-overlay {
+             position: absolute;
+             inset: 0;
+             background: linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.06));
+             z-index: 2;
+             pointer-events: none;
+         }
+         /* bring the brand content above the video */
+        .site-brand { z-index: 3; position: relative; display:flex; align-items:center; gap:10px; }
 
         /* theme toggle button */
         .theme-toggle {
@@ -190,16 +217,24 @@
     <!-- fixed header with inline video as header image -->
     <header class="site-header" id="siteHeader" role="banner">
         <div class="header-video" aria-hidden="true">
-            <video autoplay muted loop playsinline>
-                <source src="https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura_1.mp4" type="video/mp4">
+            <video class="header-bg" autoplay muted loop playsinline>
+                <source src="https://file.garden/aKXmtMu4gl9vV3YB/paperbackground.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="header-overlay" aria-hidden="true"></div>
-        <div class="site-brand" aria-label="Site title">
-            <!-- theme toggle button -->
-            <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Toggle theme">🌙</button>
-         </div>
-     </header>
+
+        <!-- foreground layer: webm file on top of the background video -->
+        <div class="header-foreground-video" aria-hidden="true">
+            <video class="header-fg" autoplay muted loop playsinline>
+                <source src="https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.webm" type="video/webm">
+            </video>
+        </div>
+        
+         <div class="header-overlay" aria-hidden="true"></div>
+         <div class="site-brand" aria-label="Site title">
+             <!-- theme toggle button -->
+             <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Toggle theme">🌙</button>
+          </div>
+      </header>
 
     <!-- main scrollable content -->
     <main class="content" role="main">
@@ -241,38 +276,49 @@
       }
 
       // parallax + dimming
-      const header = document.getElementById('siteHeader');
-      if (!header) return;
-      const vid = header.querySelector('video');
-      const overlay = header.querySelector('.header-overlay');
-      if (!vid) return;
-
-      vid.playbackRate = 0.7; // slow down video playback for effect
-
-      // compute header top relative to the document (recalc on resize)
-      let headerTop = header.getBoundingClientRect().top + window.scrollY;
-      const intensity = 0.20; // parallax intensity
-      const maxDim = 0.72;    // how much extra darkness to add at max scroll (0..1)
-      const maxBrightnessDrop = 0.45; // how much to reduce brightness (0..1)
-
-      function updateHeaderTop() {
-        headerTop = header.getBoundingClientRect().top + window.scrollY;
-      }
-
-      let ticking = false;
-      function update() {
-        const scrollY = window.scrollY || window.pageYOffset;
-        const scrollPast = scrollY - headerTop; // how far we've scrolled past the header top
-
-        // PARALLAX
-        let translateY = scrollPast * intensity;
-        const maxOffset = header.offsetHeight * 0.6;
-        translateY = Math.max(Math.min(translateY, maxOffset), -maxOffset);
-        vid.style.transform = `translate(-50%,-50%) translateY(${translateY.toFixed(2)}px)`;
-
-        // DIMMING: progress 0..1 across the header height (or when header leaves viewport)
-        const progress = Math.min(Math.max(scrollPast / header.offsetHeight, 0), 1);
-
+       const header = document.getElementById('siteHeader');
+       if (!header) return;
+      const bgVid = header.querySelector('.header-bg');
+      const fgVid = header.querySelector('.header-fg');
+      const vid = bgVid; // keep backwards-compatible variable for existing code
+       const overlay = header.querySelector('.header-overlay');
+       if (!vid) return;
+ 
+      // tune playback speeds independently
+      if (bgVid) bgVid.playbackRate = 0.7;
+      if (fgVid) fgVid.playbackRate = 0.85;
+ 
+       // compute header top relative to the document (recalc on resize)
+       let headerTop = header.getBoundingClientRect().top + window.scrollY;
+       const intensity = 0.20; // parallax intensity
+       const maxDim = 0.72;    // how much extra darkness to add at max scroll (0..1)
+       const maxBrightnessDrop = 0.45; // how much to reduce brightness (0..1)
+ 
+       function updateHeaderTop() {
+         headerTop = header.getBoundingClientRect().top + window.scrollY;
+       }
+ 
+       let ticking = false;
+       function update() {
+         const scrollY = window.scrollY || window.pageYOffset;
+         const scrollPast = scrollY - headerTop; // how far we've scrolled past the header top
+ 
+         // PARALLAX
+         let translateY = scrollPast * intensity;
+         const maxOffset = header.offsetHeight * 0.6;
+         translateY = Math.max(Math.min(translateY, maxOffset), -maxOffset);
+-        vid.style.transform = `translate(-50%,-50%) translateY(${translateY.toFixed(2)}px)`;
++        // apply parallax to both layers; foreground can move fractionally differently for depth
++        if (bgVid) bgVid.style.transform = `translate(-50%,-50%) translateY(${translateY.toFixed(2)}px)`;
++        if (fgVid) {
++          const fgLag = 0.6; // foreground moves 60% of background speed (tweak to taste)
++          const fgTranslate = (translateY * fgLag).toFixed(2);
++          fgVid.style.transform = `translate(-50%,-50%) translateY(${fgTranslate}px)`;
++        }
+ 
+         // DIMMING: progress 0..1 across the header height (or when header leaves viewport)
+         const progress = Math.min(Math.max(scrollPast / header.offsetHeight, 0), 1);
+ 
         // update overlay gradient alpha values using CSS var baseline
         if (overlay) {
           const baseTop = parseFloat(getComputedStyle(root).getPropertyValue('--overlay-top-alpha')) || 0.14;
