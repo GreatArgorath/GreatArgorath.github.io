@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hello World</title>
+  <title>Authoritarian Type</title>
   <style>
     html,body { height: 100%; margin: 0; }
     body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #000; color: #fff; }
@@ -18,6 +18,7 @@
       transform: translate(-50%, -50%);
       object-fit: cover;
       z-index: -1;
+      filter: invert(1);
     }
     .video-overlay {
       position: fixed;
@@ -41,7 +42,6 @@
       justify-content: center;
       text-align: center;
       padding: 1rem;
-      
     }
     .hello {
       font-size: clamp(1.5rem, 6vw, 4rem);
@@ -62,8 +62,81 @@
     <!-- If the browser doesn't support WebM with alpha, this will simply be ignored -->
   </video>
 
-  <main class="content">
-    <div class="hello">hello world</div>
-  </main>
+
+
+  <script>
+    // keep videos tightly in sync (base is master)
+    (function(){
+      const base = document.querySelector('.video-bg--base');
+      const overlay = document.querySelector('.video-overlay');
+      if (!base || !overlay) return;
+
+      const TARGET_RATE = 0.5;      // desired playback rate for both
+      const SYNC_THRESHOLD = 0.05;  // seconds of allowed drift before jump
+      let rafId = null;
+
+      function safeSetCurrentTime(video, t) {
+        try { if (isFinite(t) && video.readyState >= 1) video.currentTime = t; } catch (e) { /* ignore */ }
+      }
+
+      function setRates() {
+        try { base.playbackRate = TARGET_RATE; } catch {}
+        try { overlay.playbackRate = TARGET_RATE; } catch {}
+      }
+
+      function initSyncIfReady() {
+        if (base.readyState >= 1 && overlay.readyState >= 1) {
+          safeSetCurrentTime(overlay, base.currentTime || 0);
+          overlay.playbackRate = base.playbackRate;
+        }
+      }
+
+      function correctDrift() {
+        if (!isFinite(base.currentTime) || !isFinite(overlay.currentTime)) return;
+        const diff = base.currentTime - overlay.currentTime;
+        if (Math.abs(diff) > SYNC_THRESHOLD) {
+          // jump overlay to match base
+          safeSetCurrentTime(overlay, base.currentTime);
+        }
+      }
+
+      function syncLoop() {
+        correctDrift();
+        rafId = requestAnimationFrame(syncLoop);
+      }
+
+      function startLoop() { if (!rafId) syncLoop(); }
+      function stopLoop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+      // Mirror play/pause/seeking/rate changes from base -> overlay
+      base.addEventListener('play', () => { overlay.play().catch(()=>{}); startLoop(); });
+      base.addEventListener('pause', () => { overlay.pause(); stopLoop(); });
+      base.addEventListener('seeking', () => { safeSetCurrentTime(overlay, base.currentTime); });
+      base.addEventListener('ratechange', () => { overlay.playbackRate = base.playbackRate; });
+
+      // If overlay is interacted with, mirror back to base (keeps either as master)
+      overlay.addEventListener('seeking', () => { safeSetCurrentTime(base, overlay.currentTime); });
+      overlay.addEventListener('ratechange', () => { base.playbackRate = overlay.playbackRate; });
+
+      base.addEventListener('loadedmetadata', initSyncIfReady);
+      overlay.addEventListener('loadedmetadata', initSyncIfReady);
+
+      // initial setup
+      setRates();
+      initSyncIfReady();
+      Promise.allSettled([base.play(), overlay.play()]).catch(()=>{});
+
+      // periodic fallback
+      const intervalId = setInterval(() => {
+        if (document.hidden) return;
+        correctDrift();
+      }, 500);
+
+      window.addEventListener('unload', () => {
+        stopLoop();
+        clearInterval(intervalId);
+      });
+    })();
+  </script>
 </body>
 </html>
