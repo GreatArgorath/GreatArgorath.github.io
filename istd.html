@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>Ada Baker - ISTD</title>
     <link rel="stylesheet" href="https://use.typekit.net/xke4xzs.css">
     <style>
         body {
@@ -13,18 +13,32 @@
             height: 100vh;
             margin: 0;
             letter-spacing: -5px;
+            flex-direction: column;
+            gap: 0.25em;
+            gap: 0;
         }
         h1 {
             font-size: 48px;
             font-weight: 700;
-            transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: default;
+            line-height: 0.88;
+            margin-top: -0.12em;
+        }
+
+        .font2 {
+            font-family: "futura-100", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            letter-spacing: normal;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .bold {
             font-family: "futura-100", sans-serif;
             font-weight: 400;
             font-style: normal;
+            
         }
 
         .italic {
@@ -34,29 +48,62 @@
         }
 
         h1:hover {
+            letter-spacing: -2px;
+        }
+
+        .font2:hover {
             
             font-size: 54px;
         }
+        #backgroundVideo {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); /* center the element */
+            min-width: 100vw;
+            min-height: 100vh;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: contain;        /* use 'contain' if you want the whole video visible with letterboxing */
+            object-position: center center;
+            pointer-events: none;     /* allow clicks through video */
+        }
     </style>
 </head>
+
+<video autoplay muted loop id="backgroundVideo">
+    <source src="https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura_1.mp4" type="video/mp4">
+</video>
 <body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
     <h1 class="font1">
-        <span class="bold">a</span>
-        <span class="italic">u</span>
-        <span class="bold">t</span>
-        <span class="italic">h</span>
-        <span class="bold">o</span>
-        <span class="italic">r</span>
-        <span class="bold">i</span>
-        <span class="italic">t</span>
-        <span class="bold">a</span>
-        <span class="italic">r</span>
-        <span class="bold">i</span>
-        <span class="italic">a</span>
-        <span class="bold">n</span>
+        <span class="bold">waddup</span>
     </h1>
-    <br />
-    <h1 class="font1">
-        <span class="bold">typefaces</span>
+    <h1 class="font2">
+        <span class="font2">fash</span>
+        
+    </h1>
 </body>
 </html>
