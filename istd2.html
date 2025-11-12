@@ -7,136 +7,226 @@
   <style>
     html,body { height: 100%; margin: 0; }
     body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #000; color: #fff; }
+
+    /* Hero section contains the videos so they scroll with the page */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh; /* occupies the first screen */
+      display: flex;
+      align-items: flex-end; /* place children at bottom */
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      overflow: hidden; /* hide video overflow while it scrolls out */
+      background: transparent;
+    }
+
+    /* Videos now positioned inside the hero and move as the user scrolls */
     .video-bg--base {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      min-height: 100%;
-      transform: translate(-50%, -50%);
+      position: absolute;
+      inset: 0; /* top:0; right:0; bottom:0; left:0; */
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       z-index: -1;
-      filter: invert(1);
+      pointer-events: none;
     }
+
     .video-overlay {
-      position: fixed;
+      position: absolute;
       top: 50%;
       left: 50%;
+      transform: translate(-50%, -50%);
       width: auto;
       height: auto;
       max-width: 70%;
       max-height: 70%;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      z-index: 0; /* sits above base video but below content */
+      object-fit: contain;
+      z-index: 0;
       pointer-events: none;
+      mix-blend-mode: normal;
     }
-    .content {
-      position: relative;
-      z-index: 1;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 1rem;
-    }
+
     .hello {
+      position: relative;
+      z-index: 2;
       font-size: clamp(1.5rem, 6vw, 4rem);
       text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+
+    /* Additional content below the fold */
+    .more {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      color: #fff;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.5));
+    }
+
+    .card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.04);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    }
+
+    /* scroll indicator (arrow) */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end; /* push children to the bottom of the hero */
+      padding-bottom: 32px;     /* space from the bottom edge */
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent; /* no circle */
+      border-radius: 0;
+      border: none;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform .18s ease;
+    }
+
+    .scroll-indicator:hover { transform: scale(1.2); }
+
+    .scroll-indicator:active { transform: translateY(2px); }
+
+    /* animate the inner SVG so the button's transform can still be applied on hover */
+    .scroll-indicator svg {
+      width: 280px;
+      height: 100px;
+      stroke: rgba(127, 67, 71, 1);
+      stroke-width: 2;
+      fill: none;
+      display: block;
+      animation: bounce 5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%     { transform: translateY(8px); }
+    }
+
+    /* accessible visually-hidden text */
+    .sr-only {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* small top-left label on the first slide */
+    .site-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 3;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #000000;
+      
+      padding: 6px 10px;
+      border-radius: 6px;
+      pointer-events: none;
+      
+    }
+
+    @media (max-width: 700px) {
+      .video-overlay { object-position: center top; }
+      .card { margin: 1rem; }
     }
   </style>
 </head>
 <body>
-  <!-- Base background video -->
-  <video class="video-bg--base" autoplay muted loop playsinline poster="videos/poster.jpg" aria-hidden="true">
-    <source src="https://file.garden/aKXmtMu4gl9vV3YB/paperbackground.mp4" type="video/mp4">
-    <!-- Fallback: still image -->
-  </video>
 
-  <!-- Overlay WebM with alpha (transparency) -->
-  <video class="video-overlay" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.webm" type="video/webm">
-    <!-- If the browser doesn't support WebM with alpha, this will simply be ignored -->
-  </video>
+  </div>
+  <div id="cursor" class="Cursor">
+  </div>
+  <!-- First-screen hero (videos are inside so they scroll away like slides) -->
+  <main class="hero">
+    <!-- small identifying text in the top-left of the hero -->
+    <div class="site-tag">ada baker - ISTD project - WIP</div>
 
+    <!-- Base background video (fills the hero and scrolls with it) -->
+    <video id="baseVideo" class="video-bg--base" autoplay muted loop playsinline poster="videos/poster.jpg" aria-hidden="true">
+      <source src="https://file.garden/aKXmtMu4gl9vV3YB/paperbackground.mp4" type="video/mp4">
+    </video>
 
+    <!-- Overlay WebM with alpha (transparency) placed over the base and also scrolls away -->
+    <video id="overlayVideo" class="video-overlay" loop muted autoplay playsinline preload="auto" aria-hidden="true"></video>
+
+    <div class="hero-content">
+      
+
+      <!-- scroll indicator: click scrolls down one viewport; also serves as visual hint -->
+      <button class="scroll-indicator" aria-label="Scroll down" onclick="window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="sr-only">Scroll down</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- More content below the fold — scroll to move the hero (and videos) up -->
+  <section class="more">
+    <div class="card">
+      <h2>More content below</h2>
+      <p>
+        This content sits below the first viewport. The videos are inside the hero, so they scroll up
+        as you scroll — creating a slideshow-like effect where the first slide (the video) moves past.
+      </p>
+      <p>
+        Add more sections to create additional slides or content you scroll through.
+      </p>
+    </div>
+  </section>
 
   <script>
-    // keep videos tightly in sync (base is master)
-    (function(){
-      const base = document.querySelector('.video-bg--base');
-      const overlay = document.querySelector('.video-overlay');
-      if (!base || !overlay) return;
 
-      const TARGET_RATE = 0.5;      // desired playback rate for both
-      const SYNC_THRESHOLD = 0.05;  // seconds of allowed drift before jump
-      let rafId = null;
+    function supportsHEVCAlpha() {
+      const navigator = window.navigator;
+      const ua = navigator.userAgent.toLowerCase()
+      const hasMediaCapabilities = !!(navigator.mediaCapabilities && navigator.mediaCapabilities.decodingInfo)
+      const isSafari = ((ua.indexOf('safari') != -1) && (!(ua.indexOf('chrome')!= -1) && (ua.indexOf('version/')!= -1)))
+      return isSafari && hasMediaCapabilities
+    }
 
-      function safeSetCurrentTime(video, t) {
-        try { if (isFinite(t) && video.readyState >= 1) video.currentTime = t; } catch (e) { /* ignore */ }
-      }
+    const player = document.getElementById('overlayVideo');
+    player.src = supportsHEVCAlpha() ? 'https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.mov' : 'https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.webm';
 
-      function setRates() {
-        try { base.playbackRate = TARGET_RATE; } catch {}
-        try { overlay.playbackRate = TARGET_RATE; } catch {}
-      }
+    const overlay = document.getElementById('overlayVideo');
+    const base = document.getElementById('baseVideo');
 
-      function initSyncIfReady() {
-        if (base.readyState >= 1 && overlay.readyState >= 1) {
-          safeSetCurrentTime(overlay, base.currentTime || 0);
-          overlay.playbackRate = base.playbackRate;
-        }
-      }
+    const overlaySpeed = 0.8;
+    const baseSpeed = 1.2;
 
-      function correctDrift() {
-        if (!isFinite(base.currentTime) || !isFinite(overlay.currentTime)) return;
-        const diff = base.currentTime - overlay.currentTime;
-        if (Math.abs(diff) > SYNC_THRESHOLD) {
-          // jump overlay to match base
-          safeSetCurrentTime(overlay, base.currentTime);
-        }
-      }
+    overlay.addEventListener('loadedmetadata', () => { overlay.playbackRate = overlaySpeed; });
+    if (overlay.readyState >= 1) overlay.playbackRate = overlaySpeed;
 
-      function syncLoop() {
-        correctDrift();
-        rafId = requestAnimationFrame(syncLoop);
-      }
-
-      function startLoop() { if (!rafId) syncLoop(); }
-      function stopLoop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
-
-      // Mirror play/pause/seeking/rate changes from base -> overlay
-      base.addEventListener('play', () => { overlay.play().catch(()=>{}); startLoop(); });
-      base.addEventListener('pause', () => { overlay.pause(); stopLoop(); });
-      base.addEventListener('seeking', () => { safeSetCurrentTime(overlay, base.currentTime); });
-      base.addEventListener('ratechange', () => { overlay.playbackRate = base.playbackRate; });
-
-      // If overlay is interacted with, mirror back to base (keeps either as master)
-      overlay.addEventListener('seeking', () => { safeSetCurrentTime(base, overlay.currentTime); });
-      overlay.addEventListener('ratechange', () => { base.playbackRate = overlay.playbackRate; });
-
-      base.addEventListener('loadedmetadata', initSyncIfReady);
-      overlay.addEventListener('loadedmetadata', initSyncIfReady);
-
-      // initial setup
-      setRates();
-      initSyncIfReady();
-      Promise.allSettled([base.play(), overlay.play()]).catch(()=>{});
-
-      // periodic fallback
-      const intervalId = setInterval(() => {
-        if (document.hidden) return;
-        correctDrift();
-      }, 500);
-
-      window.addEventListener('unload', () => {
-        stopLoop();
-        clearInterval(intervalId);
-      });
-    })();
+    base.addEventListener('loadedmetadata', () => { base.playbackRate = baseSpeed; });
+    if (base.readyState >= 1) base.playbackRate = baseSpeed;
   </script>
 </body>
 </html>
