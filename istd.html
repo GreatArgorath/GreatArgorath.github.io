@@ -1,355 +1,233 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ada Baker - ISTD</title>
-    <link rel="stylesheet" href="https://use.typekit.net/xke4xzs.css">
-    <style>
-        /* theme variables */
-        :root{
-            --bg: #000;
-            --text: #fff;
-            --overlay-top-alpha: 0.14;
-            --overlay-bottom-alpha: 0.06;
-            --video-invert: 1; /* 1 = inverted (dark), 0 = normal (light) */
-        }
-        /* light theme overrides */
-        :root.light {
-            --bg: #fff;
-            --text: #000;
-            --overlay-top-alpha: 0.06;
-            --overlay-bottom-alpha: 0.03;
-            --video-invert: 0;
-            --video-hue-rotate: 0deg; /* disable hue-rotate in light mode */
-        }
-        /* dark theme overrides (explicit) */
-        :root.dark {
-            --bg: #000;
-            --text: #fff;
-            --overlay-top-alpha: 0.18;
-            --overlay-bottom-alpha: 0.06;
-            --video-invert: 1;
-            --video-hue-rotate: 180deg; /* keep hue rotate in dark mode */
-        }
-        /* page layout: header-as-hero with video */
-        :root { --header-h: 320px; } /* header height — change to taste (e.g. 200-420px) */
-        html,body { height:100%; margin:0; }
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            color: var(--text);
-            line-height: 1.35;
-            letter-spacing: -0.02em;
-            background: var(--bg);
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Authoritarian Type</title>
+  <style>
+    html,body { height: 100%; margin: 0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #ffffff; color: #fff; }
 
-        /* header in normal flow (scrolls with the page) */
-        header.site-header{
-            position: relative;          /* in-flow header (not fixed) */
-            height: var(--header-h);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            background: transparent;     /* video will show through */
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            overflow: hidden;            /* clip video inside header bounds */
-        }
-        /* header inner layout */
-        .site-brand {
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            padding: 8px 14px;
-        }
-        .site-brand h1 {
-            margin: 0;
-            font-size: 20px;
-            line-height: 1;
-            letter-spacing: -0.03em;
-            font-weight: 700;
-        }
-        .site-brand .sub {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 2px;
-        }
+    /* Hero section contains the videos so they scroll with the page */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh; /* occupies the first screen */
+      display: flex;
+      align-items: flex-end; /* place children at bottom */
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      overflow: hidden; /* hide video overflow while it scrolls out */
+      background: transparent;
+    }
 
-        /* normal page content */
-        main.content {
-            padding: 18px 18px 64px; /* header occupies its own space in the flow */
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    /* Videos now positioned inside the hero and move as the user scrolls */
+    .video-bg--base {
+      position: absolute;
+      inset: 0; /* top:0; right:0; bottom:0; left:0; */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      pointer-events: none;
+    }
 
-        p {
-            color: rgb(255, 255, 255);
-            font-family: "gothicus", serif;
-            font-size: 16px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: normal;
-        }
-        /* keep original headings usable inside header or content */
-        h1 {
-            font-size: 48px;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: default;
-            line-height: 0.88;
-            margin: 0;
-        }
+    .video-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: auto;
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: contain;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: normal;
+    }
 
-        .font2 {
-            font-family: "futura-100", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            letter-spacing: normal;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    .hello {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(1.5rem, 6vw, 4rem);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
 
-        .bold {
-            font-family: "futura-100", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            
-        }
+    /* Additional content below the fold */
+    .more {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      color: #000000;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+    }
 
-        .italic {
-            font-family: "gothicus", serif;
-            font-weight: 400;
-            font-style: normal;
-        }
+    .card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0);
+      padding: 1.5rem;
+      border-radius: 8px;
+      
+    }
 
-        h1:hover {
-            letter-spacing: -2px;
-        }
+    /* scroll indicator (arrow) */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end; /* push children to the bottom of the hero */
+      padding-bottom: 32px;     /* space from the bottom edge */
+    }
 
-        .font2:hover {
-            
-            font-size: 54px;
-        }
-        
-        /* header video container fills header area */
-        .header-video {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .header-video video {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            min-width: 100%;
-            min-height: 100%;
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent; /* no circle */
+      border-radius: 0;
+      border: none;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform .18s ease;
+    }
 
-        /* optional foreground video (layered above background video) */
-        .header-foreground-video {
-            position: absolute;
-            inset: 0;
-            z-index: 1; /* sits above .header-video but below overlay and brand */
-            pointer-events: none;
-            overflow: hidden;
-            mix-blend-mode: screen; /* change to overlay, lighten, normal, etc. to taste */
-            opacity: 0.9; /* default strength */
-            will-change: transform, opacity;
-        }
-        .header-foreground-video video {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            min-width: 100%;
-            min-height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            pointer-events: none;
-        }
+    .scroll-indicator:hover { transform: scale(1.2); }
 
-         /* optional subtle overlay for legibility */
-         .header-overlay {
-             position: absolute;
-             inset: 0;
-             background: linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.06));
-             z-index: 2;
-             pointer-events: none;
-         }
-         /* bring the brand content above the video */
-        .site-brand { z-index: 3; position: relative; display:flex; align-items:center; gap:10px; }
+    .scroll-indicator:active { transform: translateY(2px); }
 
-        /* theme toggle button */
-        .theme-toggle {
-            --size: 36px;
-            width: var(--size);
-            height: var(--size);
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.06);
-            color: var(--text);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 4px;
-            backdrop-filter: blur(4px);
-        }
-        .theme-toggle:active { transform: scale(0.98); }
-    </style>
+    /* animate the inner SVG so the button's transform can still be applied on hover */
+    .scroll-indicator svg {
+      width: 280px;
+      height: 100px;
+      stroke: rgba(127, 67, 71, 1);
+      stroke-width: 2;
+      fill: none;
+      display: block;
+      animation: bounce 5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%     { transform: translateY(8px); }
+    }
+
+    /* accessible visually-hidden text */
+    .sr-only {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* small top-left label on the first slide */
+    .site-tag {
+      font-family: futura;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 3;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #000000;
+      
+      padding: 6px 10px;
+      border-radius: 6px;
+      pointer-events: none;
+      
+    }
+
+    @media (max-width: 700px) {
+      .video-overlay { object-position: center top; }
+      .card { margin: 1rem; }
+    }
+  </style>
 </head>
 <body>
-    <!-- fixed header with inline video as header image -->
-    <header class="site-header" id="siteHeader" role="banner">
-        <div class="header-video" aria-hidden="true">
-            <video class="header-bg" autoplay muted loop playsinline>
-                <source src="https://file.garden/aKXmtMu4gl9vV3YB/paperbackground.mp4" type="video/mp4">
-            </video>
-        </div>
 
-        <!-- foreground layer: webm file on top of the background video -->
-        <div class="header-foreground-video" aria-hidden="true">
-            <video class="header-fg" autoplay muted loop playsinline>
-                <source src="https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.webm" type="video/webm">
-            </video>
-        </div>
-        
-         <div class="header-overlay" aria-hidden="true"></div>
-         <div class="site-brand" aria-label="Site title">
-             <!-- theme toggle button -->
-             <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Toggle theme">🌙</button>
-          </div>
-      </header>
+  </div>
+  <div id="cursor" class="Cursor">
+  </div>
+  <!-- First-screen hero (videos are inside so they scroll away like slides) -->
+  <main class="hero">
+    <!-- small identifying text in the top-left of the hero -->
+    <div class="site-tag">ada baker - ISTD project - WIP</div>
 
-    <!-- main scrollable content -->
-    <main class="content" role="main">
-        <h2 style="margin-top:0; font-size:18px; opacity:.9;">Intro</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <!-- keep the rest of your paragraphs here (unchanged) -->
-        <!-- ...existing paragraphs... -->
-        <p>... (remaining paragraphs kept) ...</p>
-        <img src="https://file.garden/aKXmtMu4gl9vV3YB/ouroborosfull.png" alt="Animated GIF" style="width:100%; margin-top:20px;">
-    </main>
+    <!-- Base background video (fills the hero and scrolls with it) -->
+    <video id="baseVideo" class="video-bg--base" autoplay muted loop playsinline poster="videos/poster.jpg" aria-hidden="true">
+      <source src="https://file.garden/aKXmtMu4gl9vV3YB/paperbackground.mp4" type="video/mp4">
+    </video>
 
-    <script>
-    // theme toggle + header video parallax + scroll dimming
-    (function () {
-      const root = document.documentElement;
-      const saved = localStorage.getItem('theme'); // 'dark'|'light' or null
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      // initial theme: saved > prefs > default dark
-      const initial = saved || (prefersDark ? 'dark' : 'dark');
-      root.classList.remove('light','dark');
-      root.classList.add(initial);
+    <!-- Overlay WebM with alpha (transparency) placed over the base and also scrolls away -->
+    <video id="overlayVideo" class="video-overlay" loop muted autoplay playsinline preload="auto" aria-hidden="true"></video>
 
-      // theme toggle UI
-      const toggle = document.getElementById('themeToggle');
-      function updateToggleUI() {
-        const isDark = root.classList.contains('dark');
-        toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-        toggle.textContent = isDark ? '🌙' : '☀️';
-      }
-      if (toggle) {
-        toggle.addEventListener('click', () => {
-          const next = root.classList.contains('dark') ? 'light' : 'dark';
-          root.classList.remove('light','dark');
-          root.classList.add(next);
-          localStorage.setItem('theme', next);
-          updateToggleUI();
-        });
-        updateToggleUI();
-      }
+    <div class="hero-content">
+      
 
-      // parallax + dimming
-       const header = document.getElementById('siteHeader');
-       if (!header) return;
-      const bgVid = header.querySelector('.header-bg');
-      const fgVid = header.querySelector('.header-fg');
-      const vid = bgVid; // keep backwards-compatible variable for existing code
-       const overlay = header.querySelector('.header-overlay');
-       if (!vid) return;
- 
-      // tune playback speeds independently
-      if (bgVid) bgVid.playbackRate = 0.7;
-      if (fgVid) fgVid.playbackRate = 0.85;
- 
-       // compute header top relative to the document (recalc on resize)
-       let headerTop = header.getBoundingClientRect().top + window.scrollY;
-       const intensity = 0.20; // parallax intensity
-       const maxDim = 0.72;    // how much extra darkness to add at max scroll (0..1)
-       const maxBrightnessDrop = 0.45; // how much to reduce brightness (0..1)
- 
-       function updateHeaderTop() {
-         headerTop = header.getBoundingClientRect().top + window.scrollY;
-       }
- 
-       let ticking = false;
-       function update() {
-         const scrollY = window.scrollY || window.pageYOffset;
-         const scrollPast = scrollY - headerTop; // how far we've scrolled past the header top
- 
-         // PARALLAX
-         let translateY = scrollPast * intensity;
-         const maxOffset = header.offsetHeight * 0.6;
-         translateY = Math.max(Math.min(translateY, maxOffset), -maxOffset);
--        vid.style.transform = `translate(-50%,-50%) translateY(${translateY.toFixed(2)}px)`;
-+        // apply parallax to both layers; foreground can move fractionally differently for depth
-+        if (bgVid) bgVid.style.transform = `translate(-50%,-50%) translateY(${translateY.toFixed(2)}px)`;
-+        if (fgVid) {
-+          const fgLag = 0.6; // foreground moves 60% of background speed (tweak to taste)
-+          const fgTranslate = (translateY * fgLag).toFixed(2);
-+          fgVid.style.transform = `translate(-50%,-50%) translateY(${fgTranslate}px)`;
-+        }
- 
-         // DIMMING: progress 0..1 across the header height (or when header leaves viewport)
-         const progress = Math.min(Math.max(scrollPast / header.offsetHeight, 0), 1);
- 
-        // update overlay gradient alpha values using CSS var baseline
-        if (overlay) {
-          const baseTop = parseFloat(getComputedStyle(root).getPropertyValue('--overlay-top-alpha')) || 0.14;
-          const baseBottom = parseFloat(getComputedStyle(root).getPropertyValue('--overlay-bottom-alpha')) || 0.06;
-          const topAlpha = (baseTop + progress * maxDim).toFixed(3);
-          const bottomAlpha = (baseBottom + progress * (maxDim * 0.6)).toFixed(3);
-          overlay.style.background = `linear-gradient(180deg, rgba(0,0,0,${topAlpha}), rgba(0,0,0,${bottomAlpha}))`;
-        }
+      <!-- scroll indicator: click scrolls down one viewport; also serves as visual hint -->
+      <button class="scroll-indicator" aria-label="Scroll down" onclick="window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="sr-only">Scroll down</span>
+      </button>
+    </div>
+  </main>
 
-        // video brightness + respect theme invert var
-        const invertVar = (getComputedStyle(root).getPropertyValue('--video-invert') || '1').trim();
-        const hueRotateVar = (getComputedStyle(root).getPropertyValue('--video-hue-rotate') || '180deg').trim();
-        const brightness = Math.max(0.2, 1 - progress * maxBrightnessDrop);
-        vid.style.filter = `invert(${invertVar}) hue-rotate(${hueRotateVar}) contrast(1.05) brightness(${brightness.toFixed(3)})`;
+  <!-- More content below the fold — scroll to move the hero (and videos) up -->
+  <section class="more">
+    <div class="card">
+      <h2>More content below</h2>
+      <p>
+        This content sits below the first viewport. The videos are inside the hero, so they scroll up
+        as you scroll — creating a slideshow-like effect where the first slide (the video) moves past.
+      </p>
+      <p>
+        Add more sections to create additional slides or content you scroll through.
+      </p>
+    </div>
+  </section>
 
-        ticking = false;
-      }
+  <script>
 
-      function onScroll() {
-        if (!ticking) {
-          window.requestAnimationFrame(update);
-          ticking = true;
-        }
-      }
+    function supportsHEVCAlpha() {
+      const navigator = window.navigator;
+      const ua = navigator.userAgent.toLowerCase()
+      const hasMediaCapabilities = !!(navigator.mediaCapabilities && navigator.mediaCapabilities.decodingInfo)
+      const isSafari = ((ua.indexOf('safari') != -1) && (!(ua.indexOf('chrome')!= -1) && (ua.indexOf('version/')!= -1)))
+      return isSafari && hasMediaCapabilities
+    }
 
-      // init & listeners
-      updateHeaderTop();
-      update();
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', () => { updateHeaderTop(); update(); });
-    })();
-    </script>
- </body>
- </html>
+    const player = document.getElementById('overlayVideo');
+    player.src = supportsHEVCAlpha() ? 'https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.mov' : 'https://file.garden/aKXmtMu4gl9vV3YB/authoritariantypefutura.webm';
+
+    const overlay = document.getElementById('overlayVideo');
+    const base = document.getElementById('baseVideo');
+
+    const overlaySpeed = 0.8;
+    const baseSpeed = 1.2;
+
+    overlay.addEventListener('loadedmetadata', () => { overlay.playbackRate = overlaySpeed; });
+    if (overlay.readyState >= 1) overlay.playbackRate = overlaySpeed;
+
+    base.addEventListener('loadedmetadata', () => { base.playbackRate = baseSpeed; });
+    if (base.readyState >= 1) base.playbackRate = baseSpeed;
+  </script>
+</body>
+</html>
