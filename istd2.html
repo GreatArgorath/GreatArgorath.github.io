@@ -6,7 +6,7 @@
   <title>Authoritarian Type</title>
   <style>
     html,body { height: 100%; margin: 0; }
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #000; color: #fff; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #ffffff; color: #fff; }
 
     /* Hero section contains the videos so they scroll with the page */
     .hero {
@@ -40,8 +40,8 @@
       transform: translate(-50%, -50%);
       width: auto;
       height: auto;
-      max-width: 70%;
-      max-height: 70%;
+      max-width: 80%;
+      max-height: 80%;
       object-fit: contain;
       z-index: 0;
       pointer-events: none;
@@ -64,17 +64,17 @@
       z-index: 1;
       min-height: 100vh;
       padding: 4rem 2rem;
-      color: #fff;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.5));
+      color: #000000;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
     }
 
     .card {
       max-width: 900px;
       margin: 0 auto;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0);
       padding: 1.5rem;
       border-radius: 8px;
-      box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+      
     }
 
     /* scroll indicator (arrow) */
@@ -138,6 +138,7 @@
 
     /* small top-left label on the first slide */
     .site-tag {
+      font-family: futura;
       position: absolute;
       top: 16px;
       left: 16px;
