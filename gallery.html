@@ -2450,7 +2450,7 @@
 		anchor.addEventListener('mouseenter', onEnter);
 		anchor.addEventListener('mouseleave', onLeave);
 		anchor.addEventListener('focus', () => {
-			target = {rx: 0, ry: 0, tz: maxTranslateZ / 2, s: hoverScale + 0.5};
+			target = {rx: 0, ry: 0, tz: maxTranslateZ / 2, s: hoverScale + 0.01};
 			img.classList.add('is-tilting');
 			scheduleRAF();
 		});
