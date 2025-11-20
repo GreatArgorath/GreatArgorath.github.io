@@ -2372,7 +2372,7 @@
 	/* tune these to reduce intensity */
 	const maxTilt = 6;            // lower = less rotation
 	const maxTranslateZ = 6;      // lower = less pop-out
-	const hoverScale = 1.02;      // subtle scale
+	const hoverScale = 1.1;      // subtle scale
 	const ease = 0.05;            // interpolation factor (0.05 = very smooth/slow, 0.25 = snappier)
 
 	document.querySelectorAll('.gallery a, .video-container-2 a').forEach(anchor => {
@@ -2450,7 +2450,7 @@
 		anchor.addEventListener('mouseenter', onEnter);
 		anchor.addEventListener('mouseleave', onLeave);
 		anchor.addEventListener('focus', () => {
-			target = {rx: 0, ry: 0, tz: maxTranslateZ / 2, s: hoverScale + 0.01};
+			target = {rx: 0, ry: 0, tz: maxTranslateZ / 2, s: hoverScale + 0.5};
 			img.classList.add('is-tilting');
 			scheduleRAF();
 		});
