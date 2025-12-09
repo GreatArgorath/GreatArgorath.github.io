@@ -160,15 +160,136 @@
       .video-overlay { object-position: center top; }
       .card { margin: 1rem; }
     }
+
+    /* Timeline layout and appearance */
+    .more-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .timeline {
+      width: 160px;
+      position: sticky;
+      top: 120px;
+      align-self: start;
+      height: calc(100vh - 140px);
+      flex: 0 0 160px;
+    }
+
+    .timeline .rail {
+      position: relative;
+      height: 100%;
+      padding-left: 0; /* labels will be offset explicitly so dots sit left of the text */
+    }
+
+    .timeline .line {
+      position: absolute;
+      left: 28px; /* move the vertical rail closer to the left edge */
+      top: 8px;
+      bottom: 8px;
+      width: 4px;
+      background: #e6e6e6;
+      border-radius: 2px;
+    }
+
+    .timeline .progress {
+      position: absolute;
+      left: 28px; /* match the line position */
+      top: 8px;
+      width: 4px;
+      background: rgba(127,67,71,1);
+      border-radius: 2px;
+      height: 0%;
+      transition: height 220ms linear;
+    }
+
+    .timeline ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline li {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .timeline .dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid #ddd;
+      position: absolute;
+      left: 30px; /* place dot directly over the vertical line */
+      transform: translateX(-50%); /* keep it centered on the line */
+      transition: transform .2s ease, background .2s ease, border-color .2s ease, width .2s ease, height .2s ease, border .2s ease;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .timeline .dot:hover {
+      transform: translateX(-50%) scale(1.5);
+      border: 2px solid #ddd;
+    }
+
+    .timeline .dot.active {
+      background: rgba(127,67,71,1);
+      border-color: rgba(127,67,71,1);
+      transform: translateX(-50%) scale(1.15);
+    }
+
+    .timeline .label {
+      margin-left: 56px; /* push labels to the right so they no longer overlap the dots */
+      color: #111;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .card.content {
+      flex: 1 1 auto;
+      max-width: 820px;
+      background: transparent;
+      padding: 0 0 4rem 0;
+    }
+
+    .card .era {
+      padding: 48px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      min-height: 320px;
+    }
+
+    .card .era h3 {
+      margin: 0 0 12px 0;
+      color: #222;
+      font-size: 1.5rem;
+    }
+
+    .card .era p {
+      color: #333;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .more-inner { flex-direction: column; }
+      .timeline { display: none; }
+    }
   </style>
 </head>
 <body>
 
-  </div>
-  <div id="cursor" class="Cursor">
-  </div>
-  <!-- First-screen hero (videos are inside so they scroll away like slides) -->
-  <main class="hero">
+    </div>
+    <div id="cursor" class="Cursor">
+    </div>
+    <!-- First-screen hero (videos are inside so they scroll away like slides) -->
+    <main class="hero">
     <!-- small identifying text in the top-left of the hero -->
     <div class="site-tag">ada baker - ISTD project - WIP</div>
 
@@ -195,14 +316,137 @@
 
   <!-- More content below the fold — scroll to move the hero (and videos) up -->
   <section class="more">
-    <div class="card">
-      <h2>More content below</h2>
-      <p>
-        hello pretend there's content here
-      </p>
-      <p>
-        
-      </p>
+    <div class="more-inner">
+      <nav class="timeline" aria-hidden="false" aria-label="Era timeline">
+        <div class="rail" role="presentation">
+          <div class="line"></div>
+          <div class="progress" id="timelineProgress" style="height:0%"></div>
+          <ul>
+            <li data-era="italian">
+              <div class="dot" data-target="italian"></div>
+              <div class="label">Italian fascists</div>
+            </li>
+            <li data-era="nazi">
+              <div class="dot" data-target="nazi"></div>
+              <div class="label">Nazi Germany</div>
+            </li>
+            <li data-era="british">
+              <div class="dot" data-target="british"></div>
+              <div class="label">British fascist movements</div>
+            </li>
+            <li data-era="maga">
+              <div class="dot" data-target="maga"></div>
+              <div class="label">MAGA</div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="card content" id="contentCard">
+        <section class="era" id="italian" data-era="italian" tabindex="0">
+          <h3>Italian fascists</h3>
+          <p>Content for Italian fascists. Replace with the project copy you want to present. This block is intentionally tall to create scrollable segments so the timeline can advance as you scroll.</p>
+          <p>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu gravida lectus. Donec maximus dui et commodo consectetur. Vestibulum luctus nibh ac ornare venenatis. Mauris efficitur commodo enim non pretium. Donec consequat neque tortor, ac semper tellus pellentesque id. Mauris diam neque, venenatis non sagittis fringilla, scelerisque eu diam. Nullam condimentum lobortis felis eget rutrum. Aliquam bibendum varius tincidunt. Mauris vel fringilla nunc, eu varius tellus. Nam non eleifend sem. In hac habitasse platea dictumst.
+
+Phasellus porta efficitur arcu id pharetra. Nam eu luctus ante. Nunc ullamcorper, diam nec imperdiet gravida, turpis odio efficitur erat, id iaculis tortor mi ac nulla. Pellentesque ut ante a libero vulputate auctor. Aenean ut sagittis diam, in dictum ex. Curabitur pellentesque est nibh, et tempus nunc condimentum a. Suspendisse sagittis tempor erat et pharetra. Donec porttitor erat tortor, et commodo neque tempus nec. Duis id felis ac erat finibus cursus nec in nibh. Donec in risus nec est lobortis mattis.
+
+In hendrerit dictum urna, eu semper enim pretium sit amet. Sed hendrerit, purus non interdum mattis, diam nunc posuere velit, sit amet eleifend ligula urna ac arcu. In et urna hendrerit, viverra orci non, commodo justo. Donec in arcu mi. Donec ex ex, volutpat eget rhoncus id, interdum nec urna. Pellentesque accumsan risus a libero porta sollicitudin. In eget eros at justo aliquam dictum dapibus et ipsum. Phasellus dolor orci, ullamcorper eu eros sit amet, consectetur bibendum arcu. Vestibulum vitae placerat ligula. Nunc in odio mi. Nulla volutpat ultricies maximus. Pellentesque orci justo, placerat quis ante quis, sollicitudin suscipit velit. Nulla arcu ex, euismod id ullamcorper a, viverra a tortor.
+
+Nunc dapibus feugiat nunc ut efficitur. Morbi at quam sed mi feugiat condimentum. Vestibulum est urna, mollis et odio sit amet, placerat rhoncus diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In ac dignissim dui. Quisque eu arcu et ligula condimentum semper. Cras vitae sem eget est mattis ultricies nec maximus elit. Nulla ultrices augue eu congue egestas.
+
+Ut in est a est consequat vehicula. Nullam euismod pretium dui, vel molestie felis dapibus ac. Vivamus tristique, libero ac luctus volutpat, urna dui feugiat magna, in elementum leo erat ut lorem. Etiam volutpat lorem orci, vel cursus risus suscipit sed. Vivamus pretium lacus in nunc maximus, id venenatis sem molestie. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam mollis mauris at nulla molestie commodo. Pellentesque venenatis, eros quis blandit tincidunt, diam diam facilisis justo, et ultricies justo neque vitae purus. Pellentesque in ex eget sapien laoreet pellentesque id ut leo. Phasellus consectetur, turpis vitae feugiat convallis, ipsum augue tincidunt dolor, eu laoreet odio sapien sed lacus. Aenean ut pulvinar eros, nec accumsan orci.
+
+Aliquam aliquam sapien eu metus sodales luctus. Proin imperdiet diam ut ultrices varius. Etiam suscipit rutrum massa, at suscipit dolor dapibus in. Maecenas ante est, aliquet non placerat ac, feugiat et massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vitae aliquam quam. Cras eget orci mauris. Cras lacinia rhoncus nunc, eget gravida enim ultrices ut. Vestibulum consectetur libero a felis pulvinar aliquet. Vestibulum bibendum tincidunt malesuada. Pellentesque sodales eget urna sed pharetra.
+
+Donec vitae justo sodales, malesuada sapien ut, mattis nisi. Nulla finibus ligula arcu, id accumsan metus hendrerit ac. Aliquam erat volutpat. Quisque pellentesque sodales dapibus. Nullam egestas leo ac ex pellentesque pretium. Sed scelerisque ut dui non imperdiet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus mi velit, vel convallis est hendrerit vitae. Suspendisse eget efficitur purus. Aliquam varius sem et convallis sollicitudin. Integer iaculis feugiat orci sed gravida. Ut dolor dui, tempor eget turpis sit amet, semper faucibus dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nunc ut sem facilisis fermentum a bibendum purus. Nunc id ornare mauris. In vulputate odio a est eleifend finibus.
+
+Ut eget nunc est. Nullam efficitur viverra viverra. Maecenas id volutpat odio. Curabitur nec blandit sem, eu rhoncus eros. Aliquam vitae augue ut sem condimentum feugiat at in enim. Integer dapibus pretium faucibus. Suspendisse vel ante quis odio pretium posuere in in lorem. Curabitur sagittis tincidunt leo, eget fermentum ligula accumsan sit amet. Suspendisse nisi leo, aliquam vel ultricies sed, venenatis at nunc. Integer non diam lorem.
+
+Vivamus pellentesque eleifend tortor sit amet pellentesque. Phasellus vel molestie lectus. Donec convallis tristique sem vel efficitur. Vivamus nec erat nisi. Fusce ut purus mi. Integer varius tortor eget eros suscipit, sed pretium purus volutpat. Nunc euismod dolor ex, id hendrerit ipsum bibendum non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vel ante sed tellus convallis euismod sed id leo. In tortor orci, porta non diam sed, accumsan porta sem. Proin feugiat venenatis rutrum.
+
+In vitae sem fermentum nunc sollicitudin suscipit vulputate vitae sem. Sed molestie varius risus, sit amet tempus neque semper et. Morbi auctor mollis sagittis. Maecenas laoreet at risus nec fringilla. Nullam posuere, orci sit amet feugiat cursus, nisl turpis placerat odio, quis feugiat odio enim vel dui. Quisque tempor purus eros, non blandit sapien auctor eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean efficitur enim porta hendrerit dictum. Vivamus in sem aliquam, aliquam ex ut, feugiat justo. In et leo ipsum. </p>
+        </section>
+
+        <section class="era" id="nazi" data-era="nazi" tabindex="0">
+          <h3>Nazi Germany</h3>
+          <p>Content for Nazi Germany. Replace with the actual copy and assets for this era.</p>
+          <p>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu gravida lectus. Donec maximus dui et commodo consectetur. Vestibulum luctus nibh ac ornare venenatis. Mauris efficitur commodo enim non pretium. Donec consequat neque tortor, ac semper tellus pellentesque id. Mauris diam neque, venenatis non sagittis fringilla, scelerisque eu diam. Nullam condimentum lobortis felis eget rutrum. Aliquam bibendum varius tincidunt. Mauris vel fringilla nunc, eu varius tellus. Nam non eleifend sem. In hac habitasse platea dictumst.
+
+Phasellus porta efficitur arcu id pharetra. Nam eu luctus ante. Nunc ullamcorper, diam nec imperdiet gravida, turpis odio efficitur erat, id iaculis tortor mi ac nulla. Pellentesque ut ante a libero vulputate auctor. Aenean ut sagittis diam, in dictum ex. Curabitur pellentesque est nibh, et tempus nunc condimentum a. Suspendisse sagittis tempor erat et pharetra. Donec porttitor erat tortor, et commodo neque tempus nec. Duis id felis ac erat finibus cursus nec in nibh. Donec in risus nec est lobortis mattis.
+
+In hendrerit dictum urna, eu semper enim pretium sit amet. Sed hendrerit, purus non interdum mattis, diam nunc posuere velit, sit amet eleifend ligula urna ac arcu. In et urna hendrerit, viverra orci non, commodo justo. Donec in arcu mi. Donec ex ex, volutpat eget rhoncus id, interdum nec urna. Pellentesque accumsan risus a libero porta sollicitudin. In eget eros at justo aliquam dictum dapibus et ipsum. Phasellus dolor orci, ullamcorper eu eros sit amet, consectetur bibendum arcu. Vestibulum vitae placerat ligula. Nunc in odio mi. Nulla volutpat ultricies maximus. Pellentesque orci justo, placerat quis ante quis, sollicitudin suscipit velit. Nulla arcu ex, euismod id ullamcorper a, viverra a tortor.
+
+Nunc dapibus feugiat nunc ut efficitur. Morbi at quam sed mi feugiat condimentum. Vestibulum est urna, mollis et odio sit amet, placerat rhoncus diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In ac dignissim dui. Quisque eu arcu et ligula condimentum semper. Cras vitae sem eget est mattis ultricies nec maximus elit. Nulla ultrices augue eu congue egestas.
+
+Ut in est a est consequat vehicula. Nullam euismod pretium dui, vel molestie felis dapibus ac. Vivamus tristique, libero ac luctus volutpat, urna dui feugiat magna, in elementum leo erat ut lorem. Etiam volutpat lorem orci, vel cursus risus suscipit sed. Vivamus pretium lacus in nunc maximus, id venenatis sem molestie. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam mollis mauris at nulla molestie commodo. Pellentesque venenatis, eros quis blandit tincidunt, diam diam facilisis justo, et ultricies justo neque vitae purus. Pellentesque in ex eget sapien laoreet pellentesque id ut leo. Phasellus consectetur, turpis vitae feugiat convallis, ipsum augue tincidunt dolor, eu laoreet odio sapien sed lacus. Aenean ut pulvinar eros, nec accumsan orci.
+
+Aliquam aliquam sapien eu metus sodales luctus. Proin imperdiet diam ut ultrices varius. Etiam suscipit rutrum massa, at suscipit dolor dapibus in. Maecenas ante est, aliquet non placerat ac, feugiat et massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vitae aliquam quam. Cras eget orci mauris. Cras lacinia rhoncus nunc, eget gravida enim ultrices ut. Vestibulum consectetur libero a felis pulvinar aliquet. Vestibulum bibendum tincidunt malesuada. Pellentesque sodales eget urna sed pharetra.
+
+Donec vitae justo sodales, malesuada sapien ut, mattis nisi. Nulla finibus ligula arcu, id accumsan metus hendrerit ac. Aliquam erat volutpat. Quisque pellentesque sodales dapibus. Nullam egestas leo ac ex pellentesque pretium. Sed scelerisque ut dui non imperdiet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus mi velit, vel convallis est hendrerit vitae. Suspendisse eget efficitur purus. Aliquam varius sem et convallis sollicitudin. Integer iaculis feugiat orci sed gravida. Ut dolor dui, tempor eget turpis sit amet, semper faucibus dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nunc ut sem facilisis fermentum a bibendum purus. Nunc id ornare mauris. In vulputate odio a est eleifend finibus.
+
+Ut eget nunc est. Nullam efficitur viverra viverra. Maecenas id volutpat odio. Curabitur nec blandit sem, eu rhoncus eros. Aliquam vitae augue ut sem condimentum feugiat at in enim. Integer dapibus pretium faucibus. Suspendisse vel ante quis odio pretium posuere in in lorem. Curabitur sagittis tincidunt leo, eget fermentum ligula accumsan sit amet. Suspendisse nisi leo, aliquam vel ultricies sed, venenatis at nunc. Integer non diam lorem.
+
+Vivamus pellentesque eleifend tortor sit amet pellentesque. Phasellus vel molestie lectus. Donec convallis tristique sem vel efficitur. Vivamus nec erat nisi. Fusce ut purus mi. Integer varius tortor eget eros suscipit, sed pretium purus volutpat. Nunc euismod dolor ex, id hendrerit ipsum bibendum non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vel ante sed tellus convallis euismod sed id leo. In tortor orci, porta non diam sed, accumsan porta sem. Proin feugiat venenatis rutrum.
+
+In vitae sem fermentum nunc sollicitudin suscipit vulputate vitae sem. Sed molestie varius risus, sit amet tempus neque semper et. Morbi auctor mollis sagittis. Maecenas laoreet at risus nec fringilla. Nullam posuere, orci sit amet feugiat cursus, nisl turpis placerat odio, quis feugiat odio enim vel dui. Quisque tempor purus eros, non blandit sapien auctor eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean efficitur enim porta hendrerit dictum. Vivamus in sem aliquam, aliquam ex ut, feugiat justo. In et leo ipsum. </p>
+        </section>
+
+        <section class="era" id="british" data-era="british" tabindex="0">
+          <h3>British fascist movements</h3>
+          <p>Content for British fascist movements. Replace this placeholder with your material.</p>
+          <p>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu gravida lectus. Donec maximus dui et commodo consectetur. Vestibulum luctus nibh ac ornare venenatis. Mauris efficitur commodo enim non pretium. Donec consequat neque tortor, ac semper tellus pellentesque id. Mauris diam neque, venenatis non sagittis fringilla, scelerisque eu diam. Nullam condimentum lobortis felis eget rutrum. Aliquam bibendum varius tincidunt. Mauris vel fringilla nunc, eu varius tellus. Nam non eleifend sem. In hac habitasse platea dictumst.
+
+Phasellus porta efficitur arcu id pharetra. Nam eu luctus ante. Nunc ullamcorper, diam nec imperdiet gravida, turpis odio efficitur erat, id iaculis tortor mi ac nulla. Pellentesque ut ante a libero vulputate auctor. Aenean ut sagittis diam, in dictum ex. Curabitur pellentesque est nibh, et tempus nunc condimentum a. Suspendisse sagittis tempor erat et pharetra. Donec porttitor erat tortor, et commodo neque tempus nec. Duis id felis ac erat finibus cursus nec in nibh. Donec in risus nec est lobortis mattis.
+
+In hendrerit dictum urna, eu semper enim pretium sit amet. Sed hendrerit, purus non interdum mattis, diam nunc posuere velit, sit amet eleifend ligula urna ac arcu. In et urna hendrerit, viverra orci non, commodo justo. Donec in arcu mi. Donec ex ex, volutpat eget rhoncus id, interdum nec urna. Pellentesque accumsan risus a libero porta sollicitudin. In eget eros at justo aliquam dictum dapibus et ipsum. Phasellus dolor orci, ullamcorper eu eros sit amet, consectetur bibendum arcu. Vestibulum vitae placerat ligula. Nunc in odio mi. Nulla volutpat ultricies maximus. Pellentesque orci justo, placerat quis ante quis, sollicitudin suscipit velit. Nulla arcu ex, euismod id ullamcorper a, viverra a tortor.
+
+Nunc dapibus feugiat nunc ut efficitur. Morbi at quam sed mi feugiat condimentum. Vestibulum est urna, mollis et odio sit amet, placerat rhoncus diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In ac dignissim dui. Quisque eu arcu et ligula condimentum semper. Cras vitae sem eget est mattis ultricies nec maximus elit. Nulla ultrices augue eu congue egestas.
+
+Ut in est a est consequat vehicula. Nullam euismod pretium dui, vel molestie felis dapibus ac. Vivamus tristique, libero ac luctus volutpat, urna dui feugiat magna, in elementum leo erat ut lorem. Etiam volutpat lorem orci, vel cursus risus suscipit sed. Vivamus pretium lacus in nunc maximus, id venenatis sem molestie. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam mollis mauris at nulla molestie commodo. Pellentesque venenatis, eros quis blandit tincidunt, diam diam facilisis justo, et ultricies justo neque vitae purus. Pellentesque in ex eget sapien laoreet pellentesque id ut leo. Phasellus consectetur, turpis vitae feugiat convallis, ipsum augue tincidunt dolor, eu laoreet odio sapien sed lacus. Aenean ut pulvinar eros, nec accumsan orci.
+
+Aliquam aliquam sapien eu metus sodales luctus. Proin imperdiet diam ut ultrices varius. Etiam suscipit rutrum massa, at suscipit dolor dapibus in. Maecenas ante est, aliquet non placerat ac, feugiat et massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vitae aliquam quam. Cras eget orci mauris. Cras lacinia rhoncus nunc, eget gravida enim ultrices ut. Vestibulum consectetur libero a felis pulvinar aliquet. Vestibulum bibendum tincidunt malesuada. Pellentesque sodales eget urna sed pharetra.
+
+Donec vitae justo sodales, malesuada sapien ut, mattis nisi. Nulla finibus ligula arcu, id accumsan metus hendrerit ac. Aliquam erat volutpat. Quisque pellentesque sodales dapibus. Nullam egestas leo ac ex pellentesque pretium. Sed scelerisque ut dui non imperdiet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus mi velit, vel convallis est hendrerit vitae. Suspendisse eget efficitur purus. Aliquam varius sem et convallis sollicitudin. Integer iaculis feugiat orci sed gravida. Ut dolor dui, tempor eget turpis sit amet, semper faucibus dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nunc ut sem facilisis fermentum a bibendum purus. Nunc id ornare mauris. In vulputate odio a est eleifend finibus.
+
+Ut eget nunc est. Nullam efficitur viverra viverra. Maecenas id volutpat odio. Curabitur nec blandit sem, eu rhoncus eros. Aliquam vitae augue ut sem condimentum feugiat at in enim. Integer dapibus pretium faucibus. Suspendisse vel ante quis odio pretium posuere in in lorem. Curabitur sagittis tincidunt leo, eget fermentum ligula accumsan sit amet. Suspendisse nisi leo, aliquam vel ultricies sed, venenatis at nunc. Integer non diam lorem.
+
+Vivamus pellentesque eleifend tortor sit amet pellentesque. Phasellus vel molestie lectus. Donec convallis tristique sem vel efficitur. Vivamus nec erat nisi. Fusce ut purus mi. Integer varius tortor eget eros suscipit, sed pretium purus volutpat. Nunc euismod dolor ex, id hendrerit ipsum bibendum non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vel ante sed tellus convallis euismod sed id leo. In tortor orci, porta non diam sed, accumsan porta sem. Proin feugiat venenatis rutrum.
+
+In vitae sem fermentum nunc sollicitudin suscipit vulputate vitae sem. Sed molestie varius risus, sit amet tempus neque semper et. Morbi auctor mollis sagittis. Maecenas laoreet at risus nec fringilla. Nullam posuere, orci sit amet feugiat cursus, nisl turpis placerat odio, quis feugiat odio enim vel dui. Quisque tempor purus eros, non blandit sapien auctor eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean efficitur enim porta hendrerit dictum. Vivamus in sem aliquam, aliquam ex ut, feugiat justo. In et leo ipsum. </p>
+        </section>
+
+        <section class="era" id="maga" data-era="maga" tabindex="0">
+          <h3>MAGA</h3>
+          <p>Content for MAGA. Replace with your project content.</p>
+          <p>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu gravida lectus. Donec maximus dui et commodo consectetur. Vestibulum luctus nibh ac ornare venenatis. Mauris efficitur commodo enim non pretium. Donec consequat neque tortor, ac semper tellus pellentesque id. Mauris diam neque, venenatis non sagittis fringilla, scelerisque eu diam. Nullam condimentum lobortis felis eget rutrum. Aliquam bibendum varius tincidunt. Mauris vel fringilla nunc, eu varius tellus. Nam non eleifend sem. In hac habitasse platea dictumst.
+
+Phasellus porta efficitur arcu id pharetra. Nam eu luctus ante. Nunc ullamcorper, diam nec imperdiet gravida, turpis odio efficitur erat, id iaculis tortor mi ac nulla. Pellentesque ut ante a libero vulputate auctor. Aenean ut sagittis diam, in dictum ex. Curabitur pellentesque est nibh, et tempus nunc condimentum a. Suspendisse sagittis tempor erat et pharetra. Donec porttitor erat tortor, et commodo neque tempus nec. Duis id felis ac erat finibus cursus nec in nibh. Donec in risus nec est lobortis mattis.
+
+In hendrerit dictum urna, eu semper enim pretium sit amet. Sed hendrerit, purus non interdum mattis, diam nunc posuere velit, sit amet eleifend ligula urna ac arcu. In et urna hendrerit, viverra orci non, commodo justo. Donec in arcu mi. Donec ex ex, volutpat eget rhoncus id, interdum nec urna. Pellentesque accumsan risus a libero porta sollicitudin. In eget eros at justo aliquam dictum dapibus et ipsum. Phasellus dolor orci, ullamcorper eu eros sit amet, consectetur bibendum arcu. Vestibulum vitae placerat ligula. Nunc in odio mi. Nulla volutpat ultricies maximus. Pellentesque orci justo, placerat quis ante quis, sollicitudin suscipit velit. Nulla arcu ex, euismod id ullamcorper a, viverra a tortor.
+
+Nunc dapibus feugiat nunc ut efficitur. Morbi at quam sed mi feugiat condimentum. Vestibulum est urna, mollis et odio sit amet, placerat rhoncus diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In ac dignissim dui. Quisque eu arcu et ligula condimentum semper. Cras vitae sem eget est mattis ultricies nec maximus elit. Nulla ultrices augue eu congue egestas.
+
+Ut in est a est consequat vehicula. Nullam euismod pretium dui, vel molestie felis dapibus ac. Vivamus tristique, libero ac luctus volutpat, urna dui feugiat magna, in elementum leo erat ut lorem. Etiam volutpat lorem orci, vel cursus risus suscipit sed. Vivamus pretium lacus in nunc maximus, id venenatis sem molestie. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam mollis mauris at nulla molestie commodo. Pellentesque venenatis, eros quis blandit tincidunt, diam diam facilisis justo, et ultricies justo neque vitae purus. Pellentesque in ex eget sapien laoreet pellentesque id ut leo. Phasellus consectetur, turpis vitae feugiat convallis, ipsum augue tincidunt dolor, eu laoreet odio sapien sed lacus. Aenean ut pulvinar eros, nec accumsan orci.
+
+Aliquam aliquam sapien eu metus sodales luctus. Proin imperdiet diam ut ultrices varius. Etiam suscipit rutrum massa, at suscipit dolor dapibus in. Maecenas ante est, aliquet non placerat ac, feugiat et massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vitae aliquam quam. Cras eget orci mauris. Cras lacinia rhoncus nunc, eget gravida enim ultrices ut. Vestibulum consectetur libero a felis pulvinar aliquet. Vestibulum bibendum tincidunt malesuada. Pellentesque sodales eget urna sed pharetra.
+
+Donec vitae justo sodales, malesuada sapien ut, mattis nisi. Nulla finibus ligula arcu, id accumsan metus hendrerit ac. Aliquam erat volutpat. Quisque pellentesque sodales dapibus. Nullam egestas leo ac ex pellentesque pretium. Sed scelerisque ut dui non imperdiet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus mi velit, vel convallis est hendrerit vitae. Suspendisse eget efficitur purus. Aliquam varius sem et convallis sollicitudin. Integer iaculis feugiat orci sed gravida. Ut dolor dui, tempor eget turpis sit amet, semper faucibus dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nunc ut sem facilisis fermentum a bibendum purus. Nunc id ornare mauris. In vulputate odio a est eleifend finibus.
+
+Ut eget nunc est. Nullam efficitur viverra viverra. Maecenas id volutpat odio. Curabitur nec blandit sem, eu rhoncus eros. Aliquam vitae augue ut sem condimentum feugiat at in enim. Integer dapibus pretium faucibus. Suspendisse vel ante quis odio pretium posuere in in lorem. Curabitur sagittis tincidunt leo, eget fermentum ligula accumsan sit amet. Suspendisse nisi leo, aliquam vel ultricies sed, venenatis at nunc. Integer non diam lorem.
+
+Vivamus pellentesque eleifend tortor sit amet pellentesque. Phasellus vel molestie lectus. Donec convallis tristique sem vel efficitur. Vivamus nec erat nisi. Fusce ut purus mi. Integer varius tortor eget eros suscipit, sed pretium purus volutpat. Nunc euismod dolor ex, id hendrerit ipsum bibendum non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vel ante sed tellus convallis euismod sed id leo. In tortor orci, porta non diam sed, accumsan porta sem. Proin feugiat venenatis rutrum.
+
+In vitae sem fermentum nunc sollicitudin suscipit vulputate vitae sem. Sed molestie varius risus, sit amet tempus neque semper et. Morbi auctor mollis sagittis. Maecenas laoreet at risus nec fringilla. Nullam posuere, orci sit amet feugiat cursus, nisl turpis placerat odio, quis feugiat odio enim vel dui. Quisque tempor purus eros, non blandit sapien auctor eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean efficitur enim porta hendrerit dictum. Vivamus in sem aliquam, aliquam ex ut, feugiat justo. In et leo ipsum. </p>
+        </section>
+      </div>
     </div>
   </section>
 
@@ -230,6 +474,102 @@
 
     base.addEventListener('loadedmetadata', () => { base.playbackRate = baseSpeed; });
     if (base.readyState >= 1) base.playbackRate = baseSpeed;
+
+    // Timeline interaction: highlight active dot and advance the progress bar as user scrolls
+    (function () {
+      const sections = Array.from(document.querySelectorAll('.card.content .era'));
+      if (!sections.length) return;
+
+      const dots = Array.from(document.querySelectorAll('.timeline .dot'));
+      const progress = document.getElementById('timelineProgress');
+
+      // Use viewport-position logic (rAF) rather than IntersectionObserver
+      // This picks the section whose center is nearest a stable reference line,
+      // avoiding rapid toggles when two sections are both partly visible.
+      const referenceY = () => window.innerHeight * 0.2; // stable reference (20% from top)
+
+      let ticking = false;
+      function updateActive() {
+        // choose section with center closest to referenceY
+        let bestIdx = 0;
+        let bestDist = Infinity;
+        sections.forEach((s, i) => {
+          const r = s.getBoundingClientRect();
+          const center = r.top + r.height / 2;
+          const dist = Math.abs(center - referenceY());
+          if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+        });
+
+        const activeId = sections[bestIdx].id;
+        dots.forEach(d => d.classList.toggle('active', d.dataset.target === activeId));
+
+        // update progress so it reaches the active dot center (in px)
+        const line = document.querySelector('.timeline .line');
+        if (line && progress && dots[bestIdx]) {
+          const lineRect = line.getBoundingClientRect();
+          const dotRect = dots[bestIdx].getBoundingClientRect();
+          const dotCenterY = dotRect.top + (dotRect.height / 2);
+          let heightPx = dotCenterY - lineRect.top;
+          const maxH = lineRect.height;
+          if (heightPx < 0) heightPx = 0;
+          if (heightPx > maxH) heightPx = maxH;
+          progress.style.height = heightPx + 'px';
+        } else {
+          // fallback: proportional height
+          const total = Math.max(sections.length - 1, 1);
+          const pct = (bestIdx / total) * 100;
+          progress.style.height = pct + '%';
+        }
+
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(updateActive);
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => requestAnimationFrame(updateActive));
+      // initial sync
+      requestAnimationFrame(updateActive);
+
+      // (no IntersectionObserver needed)
+
+      // helper retained for accessibility / keyboard focus changes:
+      sections.forEach((s) => {
+        s.addEventListener('focus', () => {
+          // on keyboard focus, snap timeline to that section immediately
+          const idx = sections.indexOf(s);
+          if (idx >= 0) {
+            const dotId = s.id;
+            dots.forEach(d => d.classList.toggle('active', d.dataset.target === dotId));
+            const line = document.querySelector('.timeline .line');
+            if (line && progress && dots[idx]) {
+              const lineRect = line.getBoundingClientRect();
+              const dotRect = dots[idx].getBoundingClientRect();
+              const dotCenterY = dotRect.top + (dotRect.height / 2);
+              let heightPx = dotCenterY - lineRect.top;
+              const maxH = lineRect.height;
+              if (heightPx < 0) heightPx = 0;
+              if (heightPx > maxH) heightPx = maxH;
+              progress.style.height = heightPx + 'px';
+            }
+          }
+        }, { passive: true });
+      });
+       // allow clicking labels/dots to jump to section
+       document.querySelectorAll('.timeline li').forEach(li => {
+         li.addEventListener('click', () => {
+           const target = li.getAttribute('data-era');
+           const el = document.getElementById(target);
+           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+         });
+       });
+ 
+     })();
   </script>
 </body>
 </html>
