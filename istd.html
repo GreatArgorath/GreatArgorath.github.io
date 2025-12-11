@@ -357,6 +357,50 @@
       .more-inner { flex-direction: column; }
       .timeline { display: none; }
     }
+
+    /* Draggable image "window" style */
+.img-window {
+  position: absolute; /* changed from fixed so clones move with page scrolling */
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  z-index: 9999;
+  touch-action: none;
+  user-select: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* make the cloned image fill the window container */
+.img-window img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  pointer-events: none; /* pointer events handled by wrapper */
+  user-select: none;
+}
+
+/* small "close hint" on hover (optional visual affordance) */
+.img-window::after {
+  content: "double click to close";
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 11px;
+  color: rgba(0,0,0,0.45);
+  background: rgba(255,255,255,0.85);
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: none;
+}
+.img-window:hover::after { display: block; }
   </style>
 </head>
 <body>
@@ -441,7 +485,7 @@
           </div>
           <br />
           <img src="https://file.garden/aKXmtMu4gl9vV3YB/243039.jpg" style="width: 95%">
-          <img src="https://file.garden/aKXmtMu4gl9vV3YB/fascistupclose.jpg" style="width: 95%">
+          <img src="https://file.garden/aKXmtMu4gl9vV3YB/fascistupcloser.jpg" style="width: 95%">
          </section>
 
         <section class="era" id="nazi" data-era="nazi" tabindex="0">
@@ -614,5 +658,135 @@
  
      })();
   </script>
+  <script>
+(function () {
+  // all non-header images inside eras
+  const allImgs = Array.from(document.querySelectorAll('.card .era img'));
+
+  function isHeaderImage(img) {
+    return !!img.closest('.era-header, .era-header-img-wrap');
+  }
+
+  let zCounter = 10000;
+
+  // helper: attach drag handlers to a floating window (win). startPageX/startPageY are initial page coords
+  function attachDragHandlers(win, startPageX, startPageY) {
+    // compute offsets relative to the win's current position
+    const rect = win.getBoundingClientRect();
+    const winLeft = rect.left + window.scrollX;
+    const winTop  = rect.top  + window.scrollY;
+    const offsetX = startPageX - winLeft;
+    const offsetY = startPageY - winTop;
+
+    function onPointerMove(e) {
+      e.preventDefault();
+      const pageX = e.pageX;
+      const pageY = e.pageY;
+      const nx = pageX - offsetX;
+      const ny = pageY - offsetY;
+      // optional: clamp to document bounds
+      const docW = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+      const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      const w = win.getBoundingClientRect().width;
+      const h = win.getBoundingClientRect().height;
+      const left = Math.min(Math.max(0, nx), Math.max(0, docW - Math.min(w, docW)));
+      const top  = Math.min(Math.max(0, ny), Math.max(0, docH - Math.min(h, docH)));
+      win.style.left = left + 'px';
+      win.style.top  = top + 'px';
+    }
+
+    function onPointerUp() {
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+      win.style.cursor = 'grab';
+    }
+
+    window.addEventListener('pointermove', onPointerMove, { passive: false });
+    window.addEventListener('pointerup', onPointerUp, { passive: false });
+    window.addEventListener('pointercancel', onPointerUp, { passive: false });
+  }
+
+  allImgs.forEach((img) => {
+    if (isHeaderImage(img)) return; // skip header/banner images
+
+    img.setAttribute('draggable', 'false');
+    img.style.touchAction = 'none';
+    img.style.cursor = 'grab';
+
+    // initial press on the original image — create clone and start dragging
+    img.addEventListener('pointerdown', (ev) => {
+      if (ev.button && ev.button !== 0) return;
+      ev.preventDefault();
+
+      const rect = img.getBoundingClientRect();
+      // set initial absolute position in document coordinates (include scroll offsets)
+      const initialLeft = rect.left + window.scrollX;
+      const initialTop  = rect.top  + window.scrollY;
+
+      // create floating clone window
+      const win = document.createElement('div');
+      win.className = 'img-window';
+      win.style.left = initialLeft + 'px';
+      win.style.top  = initialTop  + 'px';
+      win.style.width = rect.width + 'px';
+      win.style.height = rect.height + 'px';
+      win.style.zIndex = ++zCounter;
+
+      const cloned = img.cloneNode(true);
+      cloned.removeAttribute('id');
+      cloned.style.width = '100%';
+      cloned.style.height = '100%';
+      cloned.style.objectFit = getComputedStyle(img).objectFit || 'cover';
+      cloned.style.pointerEvents = 'none';
+
+      win.appendChild(cloned);
+      document.body.appendChild(win);
+
+      // hide original while clone exists
+      img.style.visibility = 'hidden';
+      win._sourceImg = img;
+
+      // cursor
+      win.style.cursor = 'grabbing';
+      img.style.cursor = 'grab';
+
+      // allow dragging the clone immediately (use page coordinates)
+      attachDragHandlers(win, ev.pageX, ev.pageY);
+
+      // allow subsequent drags by starting drag when pointerdown on the clone/window
+      win.addEventListener('pointerdown', (wev) => {
+        if (wev.button && wev.button !== 0) return;
+        wev.preventDefault();
+        win.style.cursor = 'grabbing';
+        attachDragHandlers(win, wev.pageX, wev.pageY);
+      }, { passive: false });
+
+      // double-click removes clone and restores original
+      win.addEventListener('dblclick', () => {
+        if (win._sourceImg && win._sourceImg.style) {
+          win._sourceImg.style.visibility = '';
+        }
+        win.remove();
+      });
+
+      // restore original if clone is removed by other code
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach(m => {
+          m.removedNodes.forEach(node => {
+            if (node === win) {
+              if (win._sourceImg && win._sourceImg.style) {
+                win._sourceImg.style.visibility = '';
+              }
+              observer.disconnect();
+            }
+          });
+        });
+      });
+      observer.observe(document.body, { childList: true });
+    }, { passive: false });
+  });
+})();
+</script>
 </body>
 </html>
