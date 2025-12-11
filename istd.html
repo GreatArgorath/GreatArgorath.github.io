@@ -5,11 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Authoritarian Type</title>
   <link rel="stylesheet" href="https://use.typekit.net/xke4xzs.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
     html,body { height: 100%; margin: 0; }
     body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #ffffff; color: #fff; }
 
     /* Hero section contains the videos so they scroll with the page */
+
+    *::selection { background: rgba(0, 0, 0, 0.99); color: #fff; }
     .hero {
       position: relative;
       z-index: 1;
@@ -248,8 +253,9 @@
 
     .timeline .label {
       margin-left: 56px; /* push labels to the right so they no longer overlap the dots */
+      font-family: "Space Mono", monospace;
       color: #111;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.95rem;
       transition: all .2s ease;
     }
@@ -271,6 +277,30 @@
       border-bottom: 1px solid rgba(0,0,0,0.06);
       min-height: 320px;
     }
+    /* two-column layout for image + text inside an era */
+    .card .era .era-row {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .card .era .era-row .era-text {
+      flex: 1 1 auto;
+    }
+    .card .era .era-row .era-image {
+      /* larger image on wider viewports */
+      flex: 0 0 480px;
+      max-width: 70%;
+    }
+    .card .era .era-row .era-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    @media (max-width: 900px) {
+      .card .era .era-row { flex-direction: column; }
+      .card .era .era-row .era-image { max-width: 100%; flex: 0 0 auto; }
+    }
 
     .card .era h3 {
       margin: 0 0 12px 0;
@@ -279,10 +309,25 @@
     }
     
     .card .era p {
+      font-family: "Space Mono", monospace;
+      font-weight: 400;
+      font-style: normal;
       color: #333;
       line-height: 1.6;
     }
 
+    /* fade-in children as their era scrolls into view */
+    .card .era > * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto;
+    }
+    /* small stagger so image/title/paragraphs appear sequentially */
+    .card .era.visible > *:nth-child(1) { transition-delay: 0s; }
+    .card .era.visible > *:nth-child(2) { transition-delay: 0.06s; }
+    .card .era.visible > *:nth-child(3) { transition-delay: 0.12s; }
+    .card .era.visible > *:nth-child(4) { transition-delay: 0.18s; }
     /* era header banner */
 .card .era .era-header {
   width: 100%;
@@ -377,9 +422,27 @@
         <section class="era" id="italian" data-era="italian" tabindex="0">
            <img src="https://file.garden/aKXmtMu4gl9vV3YB/italianfascists.jpg"
        alt="Italian Fascists" loading="lazy" style="width:100%;height:auto;display:block;border-radius:8px 8px 0 0;">
-          <p>Content for Italian fascists. Replace with the project copy you want to present. This block is intentionally tall to create scrollable segments so the timeline can advance as you scroll.</p>
-          
-        </section>
+          <p>The Italian Fascists were a far-right political movement that emerged in Italy in the early 20th century, led by Benito Mussolini.</p>
+          <p>Their propaganda design featured a fascinating contrast in where they decided to use each style of type.</p>
+
+          <div class="era-row">
+            <div class="era-text">
+              <p>Within their main print propaganda, they featured large, mordern geometric type, signalling a forward looking approach to ruling.</p>
+              <img src="https://file.garden/aKXmtMu4gl9vV3YB/rometype.jpg" style="width:100%">
+              <p>In contrast, their monuments used a more traditional roman serif typeface, presenting <br>a sense of permanence<br>and authority.</p>
+              <img src="https://file.garden/aKXmtMu4gl9vV3YB/FRY38-550.jpeg" style="width:100%">
+            </div>
+            <div class="era-image">
+              <img src="https://file.garden/aKXmtMu4gl9vV3YB/sisisi2.jpg"
+                   alt="Detail — Italian design sample" loading="lazy">
+              <img src="https://file.garden/aKXmtMu4gl9vV3YB/manifesto-mostra-1932.jpg" style="width:95%">
+              <p>This paradox is at the centre of lots of authoritarian type, and at the centre of most fascist movements.</p>
+            </div>
+          </div>
+          <br />
+          <img src="https://file.garden/aKXmtMu4gl9vV3YB/243039.jpg" style="width: 95%">
+          <img src="https://file.garden/aKXmtMu4gl9vV3YB/fascistupclose.jpg" style="width: 95%">
+         </section>
 
         <section class="era" id="nazi" data-era="nazi" tabindex="0">
           
@@ -477,9 +540,33 @@
           progress.style.height = pct + '%';
         }
 
-        ticking = false;
-      }
-
+        // Progressive per-line reveal (reversible):
+        // For each child element inside each era compute how much of that
+        // child is visible in the viewport and set opacity/translate accordingly.
+        // A small stagger (transitionDelay) gives a "line-by-line" feel.
+        sections.forEach((s) => {
+          const children = Array.from(s.children);
+          children.forEach((el, ci) => {
+            const r = el.getBoundingClientRect();
+            // visible height of the element inside viewport
+            const visibleH = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+            const ratio = (r.height > 0) ? (visibleH / r.height) : ((r.top < window.innerHeight && r.bottom > 0) ? 1 : 0);
+            // small easing so the fade looks smooth (you can tune exponent)
+            const eased = Math.pow(Math.max(0, Math.min(1, ratio)), 0.95);
+            // keep a faint "bottom of fade" always visible when element is entering
+            const minVisible = 0.06;
+            const opacity = Math.max(minVisible, eased);
+            const translateY = (1 - eased) * 18; // matches CSS translate amount
+            el.style.opacity = opacity;
+            el.style.transform = `translateY(${translateY}px)`;
+            // stagger so children appear line-by-line (80ms per item)
+            el.style.transitionDelay = `${ci * 80}ms`;
+          });
+        });
+ 
+         ticking = false;
+       }
+ 
       function onScroll() {
         if (!ticking) {
           ticking = true;
