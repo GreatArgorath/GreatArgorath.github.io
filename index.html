@@ -438,6 +438,11 @@
 						z-index: 1020;
 					}
 
+					.centar.floating-window.closing {
+						opacity: 0;
+						transition: opacity 0.08s ease-out;
+					}
+
 						.centar.floating-window img {
 							display: block;
 							max-width: 100%;
@@ -512,7 +517,7 @@
 
         <br />
 
-        <div class="centar floating-window" id="about-window" style="top: 423px; left: 500px;">
+        <div class="centar floating-window" id="about-window" style="top: 423px; left: 32%;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
@@ -527,7 +532,7 @@
 			</div>
 			<br />
         </div>
-        <div class="centar floating-window" id="work-window" style="top: 550px; right: 450px;">
+        <div class="centar floating-window" id="work-window" style="top: 550px; right: 28%;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
@@ -822,11 +827,22 @@
 		
 		floatingWindows.forEach(window => {
 			const topBar = window.querySelector('.top-bar');
+			const redLight = window.querySelector('.traffic-lights-header .red');
 			let isDragging = false;
 			let currentX;
 			let currentY;
 			let initialX;
 			let initialY;
+			
+			// Close window on red traffic light click (only for gallery windows, not about-me or my-work)
+			if (redLight && window.id !== 'about-window' && window.id !== 'work-window') {
+				redLight.addEventListener('click', () => {
+					window.classList.add('closing');
+					setTimeout(() => {
+						window.style.display = 'none';
+					}, 200);
+				});
+			}
 			
 			// Bring window to foreground on click (but keep below dock at z-index 1500)
 			window.addEventListener('mousedown', () => {
