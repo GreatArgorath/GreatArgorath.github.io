@@ -442,7 +442,41 @@
 						opacity: 0;
 						transition: opacity 0.08s ease-out;
 					}
+					.centar.floating-window .traffic-lights-header {
+						opacity: 1;
+						transition: none;
+					}
 
+					.centar.floating-window .traffic-lights-header span {
+						background: #999 !important;
+						border: none !important;
+						filter: none;
+						box-shadow: none !important;
+						background-image: none !important;
+						transition: none;
+					}
+
+					.centar.floating-window.focused .traffic-lights-header span {
+						background: unset !important;
+						border: unset !important;
+						filter: unset;
+						box-shadow: inset 0 2px 3px rgba(255,255,255,0.7), 0 2px 3px rgba(0,0,0,0.2) !important;
+					}
+
+					.centar.floating-window.focused .traffic-lights-header .red {
+						background: linear-gradient(to bottom, #ff5f56, #bf2f2a) !important;
+						border: 1px solid #a80000 !important;
+					}
+
+					.centar.floating-window.focused .traffic-lights-header .yellow {
+						background: linear-gradient(to bottom, #ffbd2e, #bf9500) !important;
+						border: 1px solid #a87f00 !important;
+					}
+
+					.centar.floating-window.focused .traffic-lights-header .green {
+						background: linear-gradient(to bottom, #27c93f, #1a9f2c) !important;
+						border: 1px solid #0f6a1a !important;
+					}
 						.centar.floating-window img {
 							display: block;
 							max-width: 100%;
@@ -532,7 +566,7 @@
 			</div>
 			<br />
         </div>
-        <div class="centar floating-window" id="work-window" style="top: 550px; right: 28%;">
+		<div class="centar floating-window focused" id="work-window" style="top: 550px; right: 32%; z-index: 1030;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
@@ -822,7 +856,8 @@
 	</script>
 	<script>
 		// Draggable window functionality with foreground layering
-		let maxZIndex = 1020;
+		let maxZIndex = 1030;
+		let focusedWindow = document.getElementById('work-window');
 		const floatingWindows = document.querySelectorAll('.floating-window');
 		
 		floatingWindows.forEach(window => {
@@ -846,9 +881,19 @@
 			
 			// Bring window to foreground on click (but keep below dock at z-index 1500)
 			window.addEventListener('mousedown', () => {
+				// Fade out previously focused window's traffic lights
+				if (focusedWindow && focusedWindow !== window) {
+					focusedWindow.classList.remove('focused');
+				}
+				
+				// Bring this window to foreground
 				maxZIndex++;
 				if (maxZIndex >= 1500) maxZIndex = 1020;
 				window.style.zIndex = maxZIndex;
+				
+				// Highlight this window's traffic lights
+				window.classList.add('focused');
+				focusedWindow = window;
 			});
 			
 			topBar.addEventListener('mousedown', startDrag);
