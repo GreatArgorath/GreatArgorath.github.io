@@ -326,7 +326,7 @@
 							flex-direction: row;
 							align-items: center;
 							pointer-events: none;
-							z-index: 1001;
+							z-index: 99;
 							--icon-count: 6;
 						}
 
@@ -356,7 +356,7 @@
 								inset 0 2px 6px rgba(255,255,255,0.6),
 								inset 0 -2px 4px rgba(0,0,0,0.3);
 
-							z-index: 1000;
+							z-index: 50;
 						}
 
 						.dock img {
@@ -367,7 +367,7 @@
 							position: relative;
 							display: block;
 							pointer-events: auto;
-							z-index: 1001;
+							z-index: 102;
 						}
 
 						.dock-icons img {
@@ -375,7 +375,7 @@
 							height: 64px;
 							cursor: pointer;
 							transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-							z-index: 1001;
+							z-index: 101;
 							transform: translateY(-10px);
 							margin: 0 5px;
 							filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
@@ -383,7 +383,7 @@
 
 						.dock-icons img:hover {
 							transform: scale(1.2) translateY(-20px);
-							z-index:1001;
+							z-index:102;
 							filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
 						}
 
@@ -421,25 +421,6 @@
 							opacity: 1;
 							transform: translateX(-50%) translateY(-30px);
 						}
-						.centar.floating-window {
-							position: absolute;
-							z-index: 1000;
-							max-width: 400px;
-							min-width: 300px;
-							cursor: default;
-							user-select: none;
-						}
-
-					#work-window {
-						z-index: 1010;
-					}
-
-						.centar.floating-window img {
-							display: block;
-							max-width: 100%;
-							height: auto;
-						}
-
 						.centar .aqua-button {
 							background: linear-gradient(#0342b9, #83dffd);
 			/* 				position: relative;
@@ -498,111 +479,25 @@
 					i'm ada, i'm a graphic designer / digital artist currently
 					studying graphic design at university
 				</p>
-			</div>
-			<br />
-
-            
-
-            
-		</div>
-
-        <br />
-
-        <div class="centar floating-window" id="about-window" style="top: 500px; left: 410px;">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content">
-				<h1 style="text-align: center">about me</h1>
-			</div>
-			<br />
-        </div>
-        <div class="centar floating-window" id="work-window" style="top: 550px; right: 400px;">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content">
-				<a href="/gallery.html" style="text-decoration: none; color: inherit; display: block; cursor: pointer;">
-					<h1 style="text-align: center; cursor: pointer;">my work</h1>
-				</a>
-			</div>
-			<br />
-        </div>
-
-		<div class="centar floating-window" id="gallery-window-1" style="top: 700px; right: 300px; max-width: 250px;">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content" style="text-align: center; padding: 10px;">
-				<img src="https://file.garden/aKXmtMu4gl9vV3YB/libultrashipthumb.jpg" style="max-width: 100%; height: auto; border-radius: 6px;" />
-			</div>
-			<br />
-		</div>
-
-		<div class="centar floating-window" id="gallery-window-2" style="top: 600px; right: 40px; max-width: 250px;">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content" style="text-align: center; padding: 10px;">
-				<img src="https://file.garden/aKXmtMu4gl9vV3YB/perasperawebsitethumb.jpg" style="max-width: 100%; height: auto; border-radius: 6px;" />
-				
-			</div>
-			<br />
-		</div>
-
-		<div class="centar floating-window" id="gallery-window-3" style="top: 200px; left: 86%; transform: translateX(-50%); max-width: 250px;">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content" style="text-align: center; padding: 10px;">
-				<img src="https://img.youtube.com/vi/PHDXcrxNelA/hqdefault.jpg" style="max-width: 100%; height: auto; border-radius: 6px;" />
-			</div>
-			<br />
-		</div>
-
-		<div class="centar floating-window" id="gallery-window-4" style="top: 400px; right: 200px; max-width: 250px;">
-			<div style="display:flex;"></div>
-			<div class="top-bar">
-				<div class="traffic-lights-header">
-					<span class="red"></span>
-					<span class="yellow"></span>
-					<span class="green"></span>
-				</div>
-			</div>
-			<br />
-			<div class="content" style="text-align: center; padding: 10px;">
-				<img src="https://file.garden/aKXmtMu4gl9vV3YB/rideordiethumb.jpg" style="max-width: 100%; height: auto; border-radius: 6px;" />
-				
+				<br />
+				<p style="text-align: center">
+					my work on here mainly consists of Doctor Who fan-art, such
+					as custom posters, blu-ray cover art, or CD cover art for
+					various releases, as well as custom title sequences created
+					using blender.
+				</p>
+				<br />
+				<p style="text-align: center">
+					i've also done work for small game development teams,
+					designing their logos and motion graphics, as well as
+					animating and editing long-form videos for them to showcase
+					the development of their projects.
+				</p>
+				<br />
+				<p style="text-align: center">
+					you can navigate through the site using the dock at the
+					bottom of the page, which contains links to my gallery, social media, and other places where you can find my work!
+				</p>
 			</div>
 			<br />
 		</div>
@@ -615,20 +510,6 @@
 		<br />
 		<br />
 		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-        <br />
 		<br />
 		<br />
 		<br />
@@ -732,48 +613,6 @@
 	</body>
 	<script>
 		NekoType="neon"
-	</script>
-	<script>
-		// Draggable window functionality
-		const floatingWindows = document.querySelectorAll('.floating-window');
-		
-		floatingWindows.forEach(window => {
-			const topBar = window.querySelector('.top-bar');
-			let isDragging = false;
-			let currentX;
-			let currentY;
-			let initialX;
-			let initialY;
-			
-			topBar.addEventListener('mousedown', startDrag);
-			document.addEventListener('mousemove', drag);
-			document.addEventListener('mouseup', stopDrag);
-			
-			function startDrag(e) {
-				isDragging = true;
-				initialX = e.clientX - window.offsetLeft;
-				initialY = e.clientY - window.offsetTop;
-				window.classList.add('dragging');
-			}
-			
-			function drag(e) {
-				if (!isDragging) return;
-				
-				currentX = e.clientX - initialX;
-				currentY = e.clientY - initialY;
-				
-				window.style.left = currentX + 'px';
-				window.style.top = currentY + 'px';
-				window.style.right = 'auto';
-				window.style.bottom = 'auto';
-				window.style.transform = 'none';
-			}
-			
-			function stopDrag() {
-				isDragging = false;
-				window.classList.remove('dragging');
-			}
-		});
 	</script>
 	<h1 id="nl">
 		<script src="https://webneko.net/n20171213.js"></script>
