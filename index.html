@@ -424,17 +424,57 @@
 						.centar.floating-window {
 							position: absolute;
 							z-index: 1000;
-							max-width: 400px;
-							min-width: 300px;
-							cursor: default;
-							user-select: none;
-						}
-
-					#work-window {
-						z-index: 1010;
+						max-width: 90vw;
+						min-width: min(300px, 80vw);
+						cursor: default;
+						user-select: none;
 					}
 
-					#about-window {
+					@media (max-width: 768px) {
+						.centar.floating-window {
+							max-width: 85vw;
+							min-width: min(250px, 75vw);
+						}
+						#gallery-window-1,
+						#gallery-window-2,
+						#gallery-window-3,
+						#gallery-window-4,
+						#gallery-window-5,
+						#gallery-window-7,
+						#gallery-window-8,
+						#gallery-window-9 {
+							display: none;
+						}
+						#about-window {
+							top: 400px !important;
+							left: 10% !important;
+							
+						}
+						#work-window {
+							top: 600px !important;
+							left: 50% !important;
+							right: auto !important;
+							
+						}
+					}
+
+					@media (max-width: 480px) {
+						#about-window,
+						#work-window {
+							top: auto !important;
+						}
+						#about-window {
+							top: 400px !important;
+							left: 10% !important;
+						}
+						#work-window {
+							top: 570px !important;
+							left: 40% !important;
+						}
+					}
+
+				#work-window {
+					z-index: 1030;
 						z-index: 1020;
 					}
 
@@ -551,7 +591,7 @@
 
         <br />
 
-        <div class="centar floating-window" id="about-window" style="top: 423px; left: 32%;">
+        <div class="centar floating-window" id="about-window" style="top: 423px; left: clamp(20px, 32%, calc(100vw - 350px)); z-index: 1020;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
@@ -566,7 +606,7 @@
 			</div>
 			<br />
         </div>
-		<div class="centar floating-window focused" id="work-window" style="top: 550px; right: 32%; z-index: 1030;">
+        <div class="centar floating-window focused" id="work-window" style="top: 550px; right: clamp(10px, 28%, calc(100vw - 350px)); z-index: 1030;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
