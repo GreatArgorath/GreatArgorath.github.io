@@ -430,6 +430,17 @@
 						user-select: none;
 					}
 
+			/* Position windows relative to the center on wider viewports.
+			   Each window can set a horizontal offset via the --offset-x CSS variable. */
+			@media (min-width: 769px) {
+				#about-window,
+				#work-window {
+					left: 50%;
+					transform: translateX(var(--offset-x, 0));
+					/* positive --offset-x moves the window right from center */
+				}
+			}
+
 					@media (max-width: 768px) {
 						.centar.floating-window {
 							max-width: 85vw;
@@ -455,6 +466,12 @@
 							left: 50% !important;
 							right: auto !important;
 							
+						}
+					}
+
+					@media (max-width: 1400px) {
+						#gallery-window-3, #gallery-window-9 {
+							display: none;
 						}
 					}
 
@@ -591,7 +608,7 @@
 
         <br />
 
-        <div class="centar floating-window" id="about-window" style="top: 423px; left: clamp(20px, 32%, calc(100vw - 350px)); z-index: 1020;">
+		<div class="centar floating-window" id="about-window" style="top: 423px; --offset-x: -300px; z-index: 1020;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
@@ -606,7 +623,7 @@
 			</div>
 			<br />
         </div>
-        <div class="centar floating-window focused" id="work-window" style="top: 550px; right: clamp(10px, 32%, calc(100vw - 350px)); z-index: 1030;">
+		<div class="centar floating-window focused" id="work-window" style="top: 550px; --offset-x: -50px; z-index: 1030;">
 			<div style="display:flex;"></div>
 			<div class="top-bar">
 				<div class="traffic-lights-header">
@@ -942,8 +959,19 @@
 			
 			function startDrag(e) {
 				isDragging = true;
-				initialX = e.clientX - window.offsetLeft;
-				initialY = e.clientY - window.offsetTop;
+				// Compute cursor offset inside the element using viewport coordinates
+				const rect = window.getBoundingClientRect();
+				initialX = e.clientX - rect.left;
+				initialY = e.clientY - rect.top;
+				// Disable transitions so removing transforms doesn't animate (avoids jolt)
+				window._prevTransition = window.style.transition || getComputedStyle(window).transition;
+				window.style.transition = 'none';
+				// Freeze current visual position by converting transform/percent positioning
+				window.style.left = (rect.left + globalThis.scrollX) + 'px';
+				window.style.top = (rect.top + globalThis.scrollY) + 'px';
+				window.style.transform = 'none';
+				window.style.right = 'auto';
+				window.style.bottom = 'auto';
 				window.classList.add('dragging');
 			}
 			
@@ -952,17 +980,19 @@
 				
 				currentX = e.clientX - initialX;
 				currentY = e.clientY - initialY;
-				
-				window.style.left = currentX + 'px';
-				window.style.top = currentY + 'px';
-				window.style.right = 'auto';
-				window.style.bottom = 'auto';
-				window.style.transform = 'none';
+				// Set absolute position in document coordinates (account for scroll)
+				window.style.left = (currentX + globalThis.scrollX) + 'px';
+				window.style.top = (currentY + globalThis.scrollY) + 'px';
 			}
 			
 			function stopDrag() {
 				isDragging = false;
 				window.classList.remove('dragging');
+				// restore previous transition
+				if (window._prevTransition !== undefined) {
+					window.style.transition = window._prevTransition;
+					delete window._prevTransition;
+				}
 			}
 		});
 	</script>
