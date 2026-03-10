@@ -401,6 +401,50 @@
   display: none;
 }
 .img-window:hover::after { display: block; }
+
+    /* Introduction section */
+    .introduction {
+      position: relative;
+      z-index: 1;
+      padding: 4rem 2rem;
+      color: #000000;
+      background: rgba(255, 255, 255, 0.8);
+      text-align: center;
+    }
+
+    .intro-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .intro-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: rgba(127,67,71,1);
+      font-family: "Space Mono", monospace;
+    }
+
+    .intro-content p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-family: "Space Mono", monospace;
+      font-weight: 400;
+      color: #333;
+    }
+
+    @media (max-width: 700px) {
+      .introduction {
+        padding: 2rem 1rem;
+      }
+      .intro-content h1 {
+        font-size: 2rem;
+      }
+      .intro-content p {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -433,6 +477,14 @@
       </button>
     </div>
   </main>
+
+  <!-- Introduction section -->
+  <section class="introduction">
+    <div class="intro-content">
+      <p>This project explores the typography and visual design used by authoritarian regimes throughout history, examining how typefaces and layouts have been weaponized to convey power, permanence, and control.</p>
+      <p>There are many early warning signs of authoritarianism, and understanding these patterns is crucial for recognizing and preventing the erosion of democratic norms.</p>
+    </div>
+  </section>
 
   <!-- More content below the fold — scroll to move the hero (and videos) up -->
   <section class="more">
