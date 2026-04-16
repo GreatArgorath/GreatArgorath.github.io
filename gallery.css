@@ -527,7 +527,10 @@
 						object-fit: cover;
 						opacity: 0;
 						background: #000;
-						transition: opacity var(--thumb-fade-duration, 1s) ease-in-out;
+						filter: brightness(1);
+						box-shadow: none;
+						transition: opacity var(--thumb-fade-duration, 1s) ease-in-out, filter 220ms ease, box-shadow 220ms ease;
+						will-change: opacity, filter, box-shadow;
 					}
 
 					.animated-thumb .thumb-frame.active {
@@ -559,7 +562,7 @@
 						-webkit-tap-highlight-color: transparent;
 					}
 
-					.gallery img:hover {
+					.gallery:not(.gallery-nav) img:hover {
 						transform: scale(1.02);
 					}
 
@@ -894,8 +897,14 @@
 						-webkit-transform-style: flat !important;
 						backface-visibility: visible !important;
 						-webkit-backface-visibility: visible !important;
-						transform: none !important;
 					}
+
+					.gallery-nav a:hover .thumb-frame.active,
+					.gallery-nav a:focus .thumb-frame.active {
+						box-shadow: 0 24px 52px rgba(0,0,0,0.45);
+						filter: brightness(1.25) saturate(1.1);
+					}
+
 
 					.gallery a img.is-tilting {
 						/* softer shadow and less brightness for a subtler lift */

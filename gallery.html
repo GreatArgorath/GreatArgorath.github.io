@@ -110,7 +110,7 @@
                                 class="thumb-frame"
                             />
                             <img
-                                src="https://file.garden/aKXmtMu4gl9vV3YB/logothumb-2.jpg"
+                                src="https://file.garden/aKXmtMu4gl9vV3YB/logothumb-5.jpg"
                                 alt="Logo Design category"
                                 loading="lazy"
                                 class="thumb-frame"
@@ -128,7 +128,7 @@
                                 class="thumb-frame"
                             />
                             <img
-                                src="https://file.garden/aKXmtMu4gl9vV3YB/logothumb-5.jpg"
+                                src="https://file.garden/aKXmtMu4gl9vV3YB/logothumb-2.jpg"
                                 alt="Logo Design category"
                                 loading="lazy"
                                 class="thumb-frame"
@@ -483,7 +483,7 @@
 	const hoverScale = 1.1;      // subtle scale
 	const ease = 0.05;            // interpolation factor (0.05 = very smooth/slow, 0.25 = snappier)
 
-	document.querySelectorAll('.gallery a, .video-container-2 a').forEach(anchor => {
+	document.querySelectorAll('.gallery:not(.gallery-nav) a, .video-container-2 a').forEach(anchor => {
 		const img = anchor.querySelector('img');
 		if (!img) return;
 
