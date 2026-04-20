@@ -633,13 +633,10 @@
 
 							background: rgba(0,0,0,0.95);
 						}
-					}
 
-					.lightbox.active {
-						opacity: 1;
-						pointer-events: auto;
+					.gallery-nav {
+						grid-template-columns: 1fr;
 					}
-
 					.lightbox img {
 						max-width: 100%;
 						max-height: 80vh;
