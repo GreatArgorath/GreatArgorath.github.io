@@ -626,6 +626,11 @@
 						box-sizing: border-box;
 					}
 
+					.lightbox.active {
+						opacity: 1;
+						pointer-events: auto;
+					}
+
 					@media (max-width: 768px) {
 						.lightbox {
 							backdrop-filter: none;
