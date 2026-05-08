@@ -456,11 +456,10 @@
 					}
 
 					.video-container-2 {
-						display: block;
-						justify-content: center;
-						align-items: center;
-					}
-
+					display: block;
+					justify-content: center;
+					align-items: center;
+				}
 					.video-container-2 a {
 					display: inline-block;
 					justify-content: center;
